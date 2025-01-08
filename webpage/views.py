@@ -208,6 +208,7 @@ def add_pet(request):
     else:
         form = AddPetForm()
     return render(request, 'add_pet.html', {'form': form,"Breed":Breed})
+    
 
 @user_passes_test(lambda u: u.is_staff) 
 def manage_pets(request):
@@ -222,6 +223,7 @@ def manage_pets(request):
         messages.success(request, "Pet deleted successfully!")
         return redirect('manage_pets')
     return render(request, "manage_pets.html", {"pets": pets,"Breed":Breed})
+
 
 @user_passes_test(lambda u: u.is_staff)
 def update_pet(request, pk):
@@ -274,39 +276,42 @@ def breed_recommendation(request):
         form = BreedRecommendationForm() 
     return render(request, 'breed_recom.html', {'form': form, 'Breed': Breed})
 
-@login_required
-def adopt_pet(request, pk):
-    pet_instance = get_object_or_404(pet, pk=pk)
-    user_profile = request.user.profile
-    if pet_instance.is_adopted:
-        messages.error(request, 'This pet has already been adopted.')
-        return redirect('home')
-    if request.method == 'POST':
-        form = AdoptionForm(request.POST)
-        if form.is_valid():
-            adoption_instance = form.save(commit=False)
-            adoption_instance.pet = pet_instance
-            adoption_instance.customer = request.user
-            adoption_instance.save()
-            pet_instance.is_adopted = True
-            pet_instance.save()
-            messages.success(request, 'Adoption process completed successfully!')
-            return redirect('home')
-        else:
-            messages.error(request, 'Please correct the errors below.')
-    else:
-        form = AdoptionForm(initial=
-            {'user_name' : user_profile.user,
-            'pet': pet_instance,
-            'pet_name': pet_instance.name,
-            'phone': user_profile.phone,  
-            'address': user_profile.address, 
-            'phone': user_profile.phone,
-            'city': user_profile.city,
-            'state': user_profile.state,
-            'zipcode': user_profile.zipcode,})
-    return render(request, 'adopt_pet.html', {'form': form, 'pet': pet_instance})
 
+def adopt_pet(request, pk):
+    if request.user.is_authenticated:
+        pet_instance = get_object_or_404(pet, pk=pk)
+        user_profile = request.user.profile
+        if pet_instance.is_adopted:
+            messages.error(request, 'This pet has already been adopted.')
+            return redirect('home')
+        if request.method == 'POST':
+            form = AdoptionForm(request.POST)
+            if form.is_valid():
+                adoption_instance = form.save(commit=False)
+                adoption_instance.pet = pet_instance
+                adoption_instance.customer = request.user
+                adoption_instance.save()
+                pet_instance.is_adopted = True
+                pet_instance.save()
+                messages.success(request, 'Adoption process completed successfully!')
+                return redirect('home')
+            else:
+                messages.error(request, 'Please correct the errors below.')
+        else:
+            form = AdoptionForm(initial=
+                {'user_name' : user_profile.user,
+                'pet': pet_instance,
+                'pet_name': pet_instance.name,
+                'phone': user_profile.phone,  
+                'address': user_profile.address, 
+                'phone': user_profile.phone,
+                'city': user_profile.city,
+                'state': user_profile.state,
+                'zipcode': user_profile.zipcode,})
+        return render(request, 'adopt_pet.html', {'form': form, 'pet': pet_instance})
+    else:
+        messages.error(request, 'You must be logged in!')
+        return redirect('home')
 
 @user_passes_test(lambda u: u.is_staff)
 def manage_adoptions(request):
