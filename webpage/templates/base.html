@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwaggers Adoption center</title> 
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+    
+    {% include 'nav_bar.html'%}
+
+    {% if messages %} 
+    <div class="messages"> 
+        {% for message in messages %} 
+        <div class="alert alert-{{ message.tags }}"> 
+            {{ message }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div> 
+        {% endfor %} 
+    </div>
+    {% endif %}
+
+    {% block content%}
+
+    {% endblock %}
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Tailwaggers Adoption Center. All rights reserved.</p>
+        <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+        </ul>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'base.html'%}
+
+{% block content%}
+      <!-- Hero Banner -->
+    <header class="hero" >
+        <h1>Welcome to Pet Adoption</h1>
+        <p>Find your new best friend today!</p>
+        <a href="#pets" class="btn">View Pets</a>
+    </header>
+
+    <!-- Welcome Text --> 
+    <section id='welcome1' class='welcome1'> 
+        <h2>Welcome to Tailwaggers Adoption Center</h2>
+        <p>We are delighted to have you here. Explore our available pets and find your new furry friend.</p> 
+    </section>
+
+    <!-- Available Pets Section -->
+    <section id="pets" class="pets">
+        <h2>Available Pets</h2>
+        {%for pet in pets %}
+            {%if pet.is_adopted%}
+            <div class="pet-card">
+                <div class="badge bg-dark text-white position-absoulte" style="top:0.5rem; right:0.5rem">
+                    adopted</div>
+                <img src="{{ pet.image.url }}" alt="Pet 1" style="filter:grayscale(100%)" >
+                <h3>name :{{ pet.name}}</h3>
+                <p>Breed :{{pet.breed}}</p>
+                <p>Age :{{pet.age}}</p>
+                <a href="{%url 'petP' pet.id %}" class="btn">Adopt</a>
+            </div>
+            {% else %}
+        <div class="pet-card">
+            <img src="{{ pet.image.url }}" alt="Pet 1" >
+            <h3>name :{{ pet.name}}</h3>
+            <p>Breed :{{pet.breed}}</p>
+            <p>Age :{{pet.age}}</p>
+            <a href="{%url 'petP' pet.id %}" class="btn">Adopt</a>
+        </div>
+        {% endif%}
+        {% endfor %}
+    </section>
+{% endblock %}
+

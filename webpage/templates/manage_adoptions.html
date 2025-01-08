@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Manage Adoptions</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pet Name</th>
+                <th>Adopted By</th>
+                <th>Adoption Date</th>
+                <th>Got Adopted</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for adoption in adoptions %}
+            <tr>
+                <td>{{ adoption.pet.name }}</td>
+                <td>{{ adoption.customer.username }}</td>
+                <td>{{ adoption.date }}</td>
+                <td>{{ adoption.status }}</td>
+                <td>
+                    <form method="post" action="{% url 'manage_adoptions' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="adoption_id" value="{{ adoption.id }}">
+                        <input type="hidden" name="action" value="change_status">
+                        <button type="submit" class="update-btn">Change Status</button>
+                    </form>
+                    <form method="post" action="{% url 'manage_adoptions' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="adoption_id" value="{{ adoption.id }}">
+                        <input type="hidden" name="action" value="delete_adoption">
+                        <button type="submit" class="delete-btn">Delete Adoption</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

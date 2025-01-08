@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section style=" padding: 2rem; text-align: center; background-color: #f8f9fa; margin: 0 auto;">
+    <h1>My Adopted Pets</h1>
+    {% if adoptions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet Name</th>
+                    <th>Adoption Date</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for adoption in adoptions %}
+                <tr>
+                    <td>{{ adoption.pet.name }}</td>
+                    <td>{{ adoption.date }}</td>
+                    <td>{{ adoption.address }}</td>
+                    <td>{{ adoption.phone }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    {% else %}
+        <p>You have not adopted any pets yet.</p>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    {% endif %}
+    </section>
+{% endblock %}

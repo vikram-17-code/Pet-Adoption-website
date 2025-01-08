@@ -1,0 +1,48 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<h2>Manage Pets</h2> 
+<table> 
+    <thead> 
+        <tr> 
+            <th>Name</th> 
+            <th>Breed</th> 
+            <th>Age</th>
+            <th>Gender</th> 
+            <th>Size</th>  
+            <th>Vaccinated</th> 
+            <th>Spayed Neutered</th>
+            <th>Medical Conditions</th>
+            <th>Adopted</th> 
+            <th>Actions</th> 
+        </tr> 
+    </thead> 
+    <tbody> 
+        {% for pet in pets %} 
+        <tr> 
+            <td>{{ pet.name }}</td> 
+            <td>{{ pet.breed.name }}</td>
+            <td>{{ pet.age }}</td>
+            <td>{{ pet.gender }}</td>
+            <td>{{ pet.size }}</td>
+            <td>{{ pet.vaccinations }}</td>
+            <td>{{ pet.spayed_neutered }}</td>
+            <td>{{ pet.medical_conditions }}</td>
+            <td>{{ pet.is_adopted }}</td>
+
+
+            <td> <form method="POST"> 
+                {% csrf_token %}
+                <input type="hidden" name="pet_id" value="{{ pet.id }}"> 
+                <button type="submit" class="delete-btn">Delete</button> 
+            </form>
+            <a href="{% url 'update_pet' pet.id %}">
+                <button type="submit" class="update-btn">Update</button>
+            </a>
+        </td> 
+    </tr> 
+    {% endfor %} 
+</tbody> 
+</table>
+
+{% endblock%}

@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<div id="add_pet" class="add_pet"> 
+    <h2>Add new Pets</h2> 
+        <form method="POST" action="{%url 'add_pet'%}" enctype="multipart/form-data"> {% csrf_token %} 
+            {{form.as_p}}
+            <br><br>
+            <button type="submit" class="btn">update</button>
+        </form>
+    </div>
+    <br><br>
+{% endblock %}

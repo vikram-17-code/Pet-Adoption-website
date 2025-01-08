@@ -1,0 +1,61 @@
+<!-- Navigation Bar -->
+<nav>
+    <div class="logo">
+        <h1>Tailwaggers Adoption center</h1>
+    </div>
+    <ul>
+        <li><a href="{% url "home"%}">Home</a></li>
+        <li><a href="{% url "About"%}">About</a></li>
+        <li><a href="{% url 'register' %}">Register</a></li>
+        <li class="dropdown"> 
+            <a href="{% url 'breed_category' %}" class="dropbtn">Breeds</a> 
+            <div class="dropdown-content"> 
+                
+
+            {% for breed in Breed%}
+                
+                <a href="{% url 'breed_Page' breed %}">{{breed.name}}</a>
+            
+            {% endfor %}    
+
+            </div> 
+        </li>
+        <li><a href="{% url 'breed_recommendation' %}">Breed Recommendation</a></li>
+        {% if user.is_authenticated %}
+        <li class="dropdown"> 
+            <a href="#" class="dropbtn">User</a> 
+            <div class="dropdown-content"> 
+                <a href="{% url 'profile' %}">Profile</a>
+                <a href="{% url 'user_adopted_pets' %}">Adopted Pets</a>
+                <a href="{% url 'update_user' %}">Update User</a>
+                <a href="{% url 'user_info' %}">Update Info</a>
+                <a href="{% url 'change_password' %}">Change Password</a>
+                
+            </div> 
+        </li>
+        {%endif%}
+        {% if user.is_staff %}
+        <li class="dropdown"> 
+            <a href="#" class="dropbtn">Staff</a> 
+            <div class="dropdown-content"> 
+                <a href="{% url 'add_pet' %}">Add pets</a>
+                <a href="{% url 'manage_pets' %}">Manage Pets</a>
+                <a href="{% url 'manage_adoptions' %}">Manage Adoptions</a>
+                
+                </div> 
+            </li>
+        {% endif %}
+    
+    </ul>
+    {% if user.is_authenticated %}
+    
+    
+    <div class="nav-logout"> 
+        <a href="{% url 'logout' %}" class="btn">Logout</a>
+    </div>
+    {%else %}
+    <div class="nav-login"> 
+        <a href="{% url 'login' %}" class="btn">Login</a>
+    </div>
+    {%endif%}
+</nav>

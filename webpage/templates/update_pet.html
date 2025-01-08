@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+{% block content %} 
+<section id="add_pet" class="add_pet container"> 
+<h2>Update Pet Details</h2> 
+<form method="POST" enctype="multipart/form-data"> 
+    {% csrf_token %} 
+    {{ form.as_p }} 
+    <button type="submit" class="update-btn">Update</button> 
+</form>
+</section>
+ {% endblock %}

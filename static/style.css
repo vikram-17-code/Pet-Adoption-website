@@ -1,0 +1,203 @@
+/* static/css/style.css */
+body { font-family: Arial, sans-serif; margin: 0; padding: 0;
+      background-color: #f4f4f4; background-image: url(./petpage_BG_new.jpg); 
+      background-size: cover; background-repeat: no-repeat; background-attachment: fixed; } 
+
+
+nav { background: #333; color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 1rem; } 
+nav .logo h1 { margin: 0; } 
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; padding : 2rem } 
+nav ul li { margin-right: 1rem; } 
+nav ul li a { color: #fff; text-decoration: none; } 
+
+
+
+.nav-login { margin-left: auto; margin-right: 1rem;} 
+.nav-login .btn { background: #ff6600; color: #fff; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; } 
+.nav-login .btn:hover { background: #e65c00; }
+
+
+
+.nav-logout { margin-left: auto; margin-right: 1rem;}
+.nav-logout .btn { background: #151169; color: #fff; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; } 
+.nav-logout .btn:hover { background: #0b0933; }
+
+
+
+.dropdown { position: relative; } 
+.dropdown .dropbtn { background: none; border: none; cursor: pointer; color: #fff;
+      font-size: 1rem; padding: 0.1rem 0.1rem; } 
+.dropdown-content { display: none; position: absolute; background-color: #f9f9f9;
+      min-width: 160px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); z-index: 1; } 
+.dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; 
+      text-align: left; } 
+.dropdown-content a:hover { background-color: #f1f1f1; } 
+.dropdown:hover .dropdown-content { display: block; }
+
+
+.messages .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; position: relative;} 
+.messages .alert-success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+.messages .alert-error { background-color: #ede8d4; border-color: #c3e6cb; color: #000000; }
+.closebtn {position: absolute; top: 10px; right: 10px; color: #000; font-size: 1.5rem; cursor: pointer; }
+
+
+
+.hero { background: url(./hero_banner.jpg) no-repeat center center/cover;
+      color: #fff; text-align: center; padding: 4rem 0; } 
+.hero h1 { margin: 0; font-size: 3rem; } .hero p { font-size: 1.5rem; } 
+.hero .btn { background: #ff6600; color: #fff; padding: 0.5rem 1rem; 
+    text-decoration: none; border-radius: 5px; } 
+
+
+
+.welcome1 { text-align: center; padding: 2rem 0; background-color: #f8f9fa; } 
+.welcome h2 { font-size: 2.5rem; color: #333; } 
+.welcome p { font-size: 1.2rem; color: #555; }
+
+/* breed category pager */
+
+.breed-container { max-width: 800px; margin: 2rem auto; padding: 1rem; 
+      background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); } 
+.breed-list { list-style-type: none; padding: 0; }
+.breed-item { padding: 1rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px;
+       background-color: #fafafa; } 
+.breed-item a { text-decoration: none; color: #333; font-size: 1.2rem; } 
+.breed-item a:hover { color: #007BFF; }
+
+/* home page for pets banner */
+.pets { padding: 2rem; text-align: center; } 
+.pets .pet-card { display: inline-block; margin: 1rem; padding: 1rem; border:
+     1px solid #ccc; border-radius: 5px;background-color:white; } 
+.pets .pet-card img { width: 200px; height: 200px; object-fit: cover; } 
+.pets .btn { display: block; background: #ff6600; color: #fff; padding: 0.5rem;
+     text-decoration: none; border-radius: 5px; margin-top: 1rem; }
+
+/* add new pet  page*/
+.add_pet { max-width: 800px; margin: 2rem auto; padding: 2rem;
+      background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+.add_pet h2 { text-align: center; color: #333; margin-bottom: 1rem; } 
+.add_pet form { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; } 
+.add_pet form label { text-align: right; font-weight: bold; padding-right: 1rem; } 
+.add_pet form input, .add_pet form select, .add_pet form textarea { padding: 0.75rem; border: 1px solid #ccc;
+      border-radius: 5px; font-size: 1rem; width: 100%; box-sizing: border-box;
+       /* Ensure padding and border are included in the element's total width and height */ } 
+.add_pet form button { padding: 0.75rem; border: none; border-radius: 5px; font-size: 1rem; 
+      background-color: #28a745; color: #fff; cursor: pointer; transition: background-color 0.3s ease; 
+      grid-column: span 2;justify-self: center; }
+.add_pet form input[type="checkbox"] { width: auto;margin-left: 0; }
+.add_pet form textarea { resize: vertical;  height: 100px;  } 
+.add_pet form .short-input { max-width: 300px;}
+.add_pet form button:hover { background-color: #218838; }
+
+
+/* manage pets page*/
+table { width: 100%; border-collapse: collapse; margin: 20px 0; } 
+table th, table td { padding: 12px; border: 1px solid #ddd; text-align: left; } 
+table th { background-color: #333; color: white; } 
+table tr:nth-child(even) { background-color: #f2f2f2;}
+table tr:nth-child(odd) { background-color: #ffffff;}
+.delete-btn { background-color: #ff0000;color: white; padding: 8px 16px; border: none;
+      border-radius: 4px; cursor: pointer; font-weight: bold;
+      margin-right: 10px; margin-top: 5px; display: inline-block; } 
+.delete-btn:hover { background-color: #cc0000;}
+.update-btn { background-color: #28a745; color: white; padding: 8px 16px;
+      border: none; border-radius: 4px; cursor: pointer; font-weight: bold;
+      margin-right: 10px;margin-top: 5px;display: inline-block;} 
+.update-btn:hover { background-color: #218838; }
+
+
+
+.login { padding: 2rem; text-align: center; background-color: #f8f9fa; max-width: 400px; margin: 0 auto;} 
+.login h2 { font-size: 2.5rem; color: #333; } 
+.login form { margin-top: 1rem; display: block; text-align: left; }
+.login .form-group { margin-bottom: 1rem; } 
+.login .form-group label { display: block; font-size: 1.2rem; color: #333; margin-bottom: 0.5rem; } 
+.login .form-group input { width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; } 
+.login .btn { display: inline-block; background: #ff6600; color: #fff; padding: 0.5rem 1rem;
+      text-decoration: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; }
+
+
+/* using this css for register,update_profile,change_password*/
+.signup { padding: 2rem; text-align: center; background-color: #f8f9fa; } 
+.signup h2 { font-size: 2.5rem; color: #333; } 
+.signup form { margin-top: 1rem; display: inline-block; text-align: left; } 
+.signup form p { margin-bottom: 1rem; } 
+.signup form label { display: block; font-size: 1.2rem; color: #333; margin-bottom: 0.5rem; } 
+.signup form input { width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; } 
+.signup .btn { display: inline-block; background: #ff6600; color: #fff;
+       padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; }
+
+
+.profile-container { max-width: 800px; margin: 2rem auto; padding: 2rem;
+       background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); } 
+.profile-info { margin-bottom: 1rem; } 
+.profile-info label { display: block; font-weight: bold; margin-bottom: 0.5rem; } 
+.profile-info p { margin: 0 0 1rem 0; padding: 0.5rem; background-color: #f9f9f9;
+       border: 1px solid #ccc; border-radius: 5px; }
+.profile-button-link { display: inline-block; padding: 0.75rem 1.5rem; margin-top: 1rem;
+       color: #fff; background-color: #007BFF; border: none; border-radius: 5px;
+        text-align: center; text-decoration: none; font-size: 1rem; } 
+.profile-button-link:hover { background-color: #0056b3; }
+
+
+
+       
+.user_info { padding: 2rem; text-align: center; background-color: #f8f9fa; } 
+.user_info h2 { font-size: 2.5rem; color: #333; } 
+.user_info form { margin-top: 1rem; display: inline-block; text-align: left;width:45% } 
+.user_info form p { margin-bottom: 1rem; } 
+.user_info form label { display: block; font-size: 1.2rem; color: #333; margin-bottom: 0.5rem; } 
+.user_info form input { width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; } 
+.user_info .btn { display: inline-block; background: #ff6600; color: #fff;
+      padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; }
+
+
+      
+footer { background: #333; color: #fff; text-align: center; padding: 1rem; } 
+footer ul { list-style: none; padding: 0; } 
+footer ul li { display: inline; margin: 0 1rem; } 
+footer ul li a { color: #fff; text-decoration: none; }
+
+
+/* pet page */
+.pet-container { max-width: 800px; margin: auto; background: white; 
+      padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); } 
+.pet-image { text-align: center; } 
+.pet-image img { width: 500px; height: auto; } 
+.pet-details, .owner-info, .health-info, .additional-info { margin-bottom: 20px; } 
+h2 { color: #333; } 
+.label { font-weight: bold; } 
+.adopt-button { display: inline-block; padding: 10px 20px; color: white; background-color: #4CAF50;
+       text-align: center; border-radius: 5px; text-decoration: none; margin: 20px auto;} 
+.adopt-button:hover { background-color: #45a049; } 
+.adoption-section { text-align: center;}
+
+
+.breed_recom_container { max-width: 800px; margin: 2rem auto; padding: 2rem;
+      background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+.breed_recom_container form { display: flex; flex-direction: column; gap: 1rem; } 
+.breed_recom_container form label { font-weight: bold; } 
+.breed_recom_container form input[type="radio"], form input[type="checkbox"] { margin-right: 0.5rem; } 
+.breed_recom_container form .btn { background-color: #007BFF; color: #fff; padding: 0.75rem;
+      border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s ease; }
+.breed_recom_container form .btn:hover { background-color: #0056b3; }
+
+
+
+.breed_recom_container .results ul { list-style-type: none; padding: 0; } 
+.breed_recom_container .results li { padding: 1rem; margin-bottom: 1rem; background-color: #f8f9fa;
+      border: 1px solid #ddd; border-radius: 5px; }
+.breed_recom_container .no-results { text-align: center; font-size: 1.2rem; color: #555; }
+.breed_recom_container .btn { display: inline-block; background-color: #007BFF; color: #fff; padding: 0.75rem;
+      border: none; border-radius: 5px; text-decoration: none; cursor: pointer;
+       font-size: 1rem; transition: background-color 0.3s ease; }
+.breed_recom_container .btn:hover { background-color: #0056b3; }
+
+
+
+.about { padding: 40px; background-color: #ffffff; box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+      margin: 20px auto; max-width: 800px; } 
+.about h1, .about h2 { color: #ff7e5f; } 
+.about p { line-height: 1.6; margin-bottom: 20px; } 
+.about ul { list-style-type: disc; padding-left: 20px; } 
+.about ul li { margin-bottom: 10px; }

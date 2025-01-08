@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+
+{% block content%} 
+<section class="user_info"> 
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }} 
+        <!--<small class="form-text text-muted">By checking this checkbox, You are declaring that you will take care of this animal and take full responsabilty of this animal</small>-->
+        <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Adopt</button>
+    </form>
+    <script> document.getElementById('id_declaration').addEventListener('change', function() 
+        { document.getElementById('submitBtn').disabled = !this.checked; }); 
+
+    </script>
+</section>
+{% endblock%}

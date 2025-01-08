@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+
+{% block content%}
+
+<section id="pets" class="pets">
+    {%for pet in Pet %}
+            {%if pet.is_adopted%}
+            <div class="pet-card">
+                <div class="badge bg-dark text-white position-absoulte" style="top:0.5rem; right:0.5rem">
+                    adopted</div>
+                <img src="{{ pet.image.url }}" alt="Pet 1" style="filter:grayscale(100%)" >
+                <h3>name :{{ pet.name}}</h3>
+                <p>Breed :{{pet.breed}}</p>
+                <p>Age :{{pet.age}}</p>
+                <a href="{%url 'petP' pet.id %}" class="btn">Adopt</a>
+            </div>
+            {% else %}
+        <div class="pet-card">
+            <img src="{{ pet.image.url }}" alt="Pet 1" >
+            <h3>name :{{ pet.name}}</h3>
+            <p>Breed :{{pet.breed}}</p>
+            <p>Age :{{pet.age}}</p>
+            <a href="{%url 'petP' pet.id %}" class="btn">Adopt</a>
+        </div>
+        {% endif%}
+        {% endfor %}
+    </section>
+
+
+{% endblock %}

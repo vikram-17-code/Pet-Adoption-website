@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+
+{% block content%} 
+<div class="breed-container"> 
+    <h1>Breed Categories</h1> 
+    <ul class="breed-list"> 
+        {% for breed in Breed %} 
+        <li class="breed-item"> 
+        <a href="{% url 'breed_Page' breed.name|slugify %}">{{ breed.name }}</a> 
+    </li> 
+    {% endfor %} 
+</ul>
+</div>
+{% endblock%}

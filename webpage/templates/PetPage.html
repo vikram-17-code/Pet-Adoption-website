@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<div class="pet-container"> 
+    <div class="pet-image"> 
+        <img src="{{ Pet.image.url }}" alt="{{ Pet.name }}"> 
+    </div> <div class="pet-details"> 
+        <h2>Pet Details</h2> 
+        <p><span class="label">Name:</span> {{ Pet.name }}</p> 
+        <p><span class="label">Breed:</span> {{ Pet.breed }}</p> 
+        <p><span class="label">Age:</span> {{ Pet.age }} </p> 
+        <p><span class="label">Gender:</span> {{ Pet.gender }}</p> 
+        <p><span class="label">Size:</span> {{ Pet.size }}</p> 
+        <p><span class="label">Color:</span> {{ Pet.color }}</p> 
+    </div> <div class="Pet-description"> 
+        <h2>Description</h2> 
+        <p>{{ Pet.description }}</p>
+    </div> 
+    <div class="health-info"> 
+        <h2>Health Information</h2> 
+        <p><span class="label">Vaccinations:</span> {{ Pet.vaccinations }}</p> 
+        <p><span class="label">Spayed/Neutered:</span> {{ Pet.spayed_neutered|yesno:"Yes,No" }}</p>
+        <p><span class="label">Medical Conditions:</span> {{ Pet.medical_conditions|default:"None" }}</p> 
+    </div>
+    {% if Pet.is_adopted %}
+
+    <div class="adoption-section" > <a href="#" class="adopt-button" style="background-color:rgb(37, 44, 38)">Adopt Me</a> </div>
+    {% else %}
+    
+    <div class="adoption-section"> <a href="{% url 'adopt_pet' Pet.id%}" class="adopt-button">Adopt Me</a> 
+    {% if user.is_staff%}
+     <a href="{%url "update_pet" Pet.id%}" class="adopt-button">Update pet</a> 
+    </div> 
+    {% endif%}
+    
+    {% endif %}
+    </div>
+
+{% endblock %}

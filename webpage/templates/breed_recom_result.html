@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="breed_recom_container" class="breed_recom_container"> 
+<h2>Breed Recommendation Results</h2>
+{% if recommended_breeds %}
+    <ul>
+        {% for breed in recommended_breeds %}
+            <li>{{ breed.name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No breeds match your preferences.</p>
+{% endif %}
+<a href="{% url 'breed_recommendation' %}" class="btn">Try Again</a>
+</section>
+
+<br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

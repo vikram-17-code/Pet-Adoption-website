@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+
+{% block content%}
+
+
+<section id="user_info" class="user_info"> 
+    <h2>User Info</h2> 
+        <form method="POST" action="{%url 'user_info'%}"> {% csrf_token %} 
+            {{form.as_p}}
+            <br><br>
+            <button type="sumbit" class="btn">Sumbit</button>
+        </form>
+    </section>
+    <br><br>
+    
+    
+{% endblock %}

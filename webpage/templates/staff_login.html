@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<section id="login" class="login"> 
+    <h2>Staff login</h2> 
+    <form method="POST" action="{%url 'staff_login'%}" > {% csrf_token %} 
+        <div class="form-group"> 
+            <label for="username">Username:</label> 
+            <input type="text" id="username" name="username" required> </div> 
+            <div class="form-group"> 
+                <label for="password">Password:</label> 
+                <input type="password" id="password" name="password" required> </div> 
+                <button type="submit" class="btn">Login</button> 
+    </form> 
+    <p>Not a Staff?<a href="{% url "login"%}">Customer Login</a>
+    </p>
+    </section>
+    <br><br>
+    {% endblock %}

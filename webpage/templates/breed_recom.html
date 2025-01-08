@@ -1,0 +1,14 @@
+{% extends 'base.html' %} 
+{% block content %} 
+
+<section id="breed_recom_container" class="breed_recom_container"> 
+    
+<h2>Breed Recommendation</h2> 
+
+<form method="post" novalidate>
+    {% csrf_token %} 
+    {{ form.as_p }} 
+    <button type="submit" class="btn btn-primary">Get Recommendation</button> 
+</form>
+</section>  
+{% endblock %}

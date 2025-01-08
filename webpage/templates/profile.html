@@ -1,0 +1,48 @@
+{% extends 'base.html'%}
+
+{% block content%} 
+<div class="profile-container"> 
+    <h1>User Profile</h1> 
+    <div class="profile-info"> 
+        <label>Username:</label>
+        <p>{{ profile.user.username }}</p> 
+    </div>
+    <div class="profile-info"> 
+        <label>First Name:</label> 
+        <p>{{ profile.user.first_name }}</p> 
+    </div>
+    <div class="profile-info"> 
+        <label>Last Name:</label> 
+        <p>{{ profile.user.last_name }}</p> 
+    </div>  
+    <div class="profile-info"> 
+        <label>Email:</label> 
+        <p>{{ profile.user.email }}</p> 
+    </div> 
+    <div class="profile-info"> 
+        <label>Phone:</label> 
+        <p>{{ profile.phone }}</p> 
+    </div> 
+    <div class="profile-info"> 
+        <label>Address:</label> 
+        <p>{{ profile.address }}</p> 
+    </div> <div class="profile-info"> 
+        <label>City:</label> 
+        <p>{{ profile.city }}</p> 
+    </div> 
+    <div class="profile-info"> 
+        <label>State:</label> 
+        <p>{{ profile.state }}</p> 
+    </div>
+    <div class="profile-info"> 
+        <label>Zip Code:</label> 
+        <p>{{ profile.zipcode }}</p> 
+    </div> <div class="profile-info"> 
+        <label>Country:</label> 
+        <p>{{ profile.country }}</p> 
+    </div> 
+    <a href="{% url 'update_user' %}" class="profile-button-link">Update Profile</a>
+    <a href="{% url 'user_info' %}" class="profile-button-link">Update Info</a>
+    <a href="{% url 'change_password' %}" class="profile-button-link">Change Password</a> 
+</div>
+{% endblock%}
