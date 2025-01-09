@@ -10,8 +10,16 @@
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 </head>
 <body>
-    
+    {% if user.is_staff %}
+
+    {% include 'staff_nav.html'%}
+
+    {% else %}
+
     {% include 'nav_bar.html'%}
+
+    {% endif %}
+    
 
     {% if messages %} 
     <div class="messages"> 

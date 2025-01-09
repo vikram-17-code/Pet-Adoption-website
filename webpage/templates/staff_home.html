@@ -1,0 +1,20 @@
+{% extends 'base.html'%}
+
+{% block content%} 
+<div class="breed-container"> 
+    <h1>Staff Menu</h1> 
+    <ul class="breed-list"> 
+    
+        <li class="breed-item"> 
+        <a href="{% url 'add_pet' %}"> Add Pet </a> 
+        </li>
+        <li class="breed-item"> 
+            <a href="{% url 'manage_pets' %}"> Manage Pet </a> 
+        </li>
+        <li class="breed-item"> 
+            <a href="{% url 'manage_adoptions' %}"> Manage Adoptions</a> 
+        </li> 
+    
+</ul>
+</div>
+{% endblock%}

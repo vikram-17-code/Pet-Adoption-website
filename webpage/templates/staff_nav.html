@@ -1,0 +1,32 @@
+<nav>
+    <div class="logo">
+        <h1>Tailwaggers Adoption center</h1>
+    </div>
+    <ul>
+        
+        {% if user.is_staff %}
+        <li class="dropdown"> 
+            <a href="#" class="dropbtn">Staff</a> 
+            <div class="dropdown-content"> 
+                <a href="{% url 'add_pet' %}">Add pets</a>
+                <a href="{% url 'manage_pets' %}">Manage Pets</a>
+                <a href="{% url 'manage_adoptions' %}">Manage Adoptions</a>
+                <a href="{% url 'profile' %}">Profile</a>
+                
+                </div> 
+            </li>
+        {% endif %}
+    
+    </ul>
+    {% if user.is_authenticated %}
+    
+    
+    <div class="nav-logout"> 
+        <a href="{% url 'logout' %}" class="btn">Logout</a>
+    </div>
+    {%else %}
+    <div class="nav-login"> 
+        <a href="{% url 'login' %}" class="btn">Login</a>
+    </div>
+    {%endif%}
+</nav>

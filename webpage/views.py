@@ -115,7 +115,10 @@ def update_user(request):
             user_form.save()
             login(request, current_user)
             messages.success(request,"user data is updated")
-            return redirect("home")
+            if current_user.is_staff:
+                return redirect("staff_home")
+            else:
+                return redirect("home")
         else:
             return render(request,"update_user.html",{"user_form":user_form,"Breed":Breed})
     else:
@@ -156,7 +159,10 @@ def user_info(request):
         if form.is_valid():
             form.save()
             messages.success(request,"user info is updated")
-            return redirect("home")
+            if current_user.is_staff:
+                return redirect("staff_home")
+            else:
+                return redirect("home")
         else:
             return render(request,"user_info.html",{"form":form,"Breed":Breed})
     else:
@@ -183,7 +189,7 @@ def staff_login(request):
         if user is not None and user.is_staff: 
             login(request, user) 
             messages.success(request, 'Welcome, Staff Member!') 
-            return redirect('home') 
+            return redirect('staff_home') 
         else: 
             messages.error(request, 'Invalid credentials or not a staff member.') 
             return redirect('staff_login') 
@@ -201,7 +207,7 @@ def add_pet(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Pet added successfully!')
-            return redirect('home')
+            return redirect('manage_pets')
         else:
             print(form.errors)
             messages.error(request, 'Please correct the errors below.')
@@ -212,8 +218,7 @@ def add_pet(request):
 
 @user_passes_test(lambda u: u.is_staff) 
 def manage_pets(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
+   
     
     pets = pet.objects.all()
     if request.method == 'POST':
@@ -222,13 +227,12 @@ def manage_pets(request):
         pet_to_delete.delete()
         messages.success(request, "Pet deleted successfully!")
         return redirect('manage_pets')
-    return render(request, "manage_pets.html", {"pets": pets,"Breed":Breed})
+    return render(request, "manage_pets.html", {"pets": pets,})
 
 
 @user_passes_test(lambda u: u.is_staff)
 def update_pet(request, pk):
     #for dropdown menw
-    Breed =breed.objects.all()
     
     try: 
         Pet = get_object_or_404(pet, pk=pk) 
@@ -243,7 +247,7 @@ def update_pet(request, pk):
             return redirect('petP', pk=Pet.pk)
     else:
         form = UpdatePetForm(instance=Pet)
-    return render(request, "update_pet.html", {"form": form, "pet": Pet,"Breed":Breed})
+    return render(request, "update_pet.html", {"form": form, "pet": Pet,})
 
 
 def breed_recommendation(request):
@@ -338,3 +342,6 @@ def manage_adoptions(request):
 def user_adopted_pets(request):
     adoptions = Adoption.objects.filter(customer=request.user)
     return render(request, "user_adopted_pets.html", {"adoptions": adoptions})
+
+def staff_home(request):
+    return render(request, "staff_home.html")
