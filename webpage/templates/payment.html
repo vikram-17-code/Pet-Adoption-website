@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="payment" class="payment">
+    <h2>Make a Payment</h2>
+    <form method="POST" action="{% url 'payment' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><br>
+        <button type="submit" class="btn">Submit Payment</button>
+    </form>
+</section>
+<br><br>
+{% endblock %}

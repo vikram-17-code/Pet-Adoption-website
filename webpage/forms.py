@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm ,UserChangeForm ,SetPasswordForm
 from django import forms
-from .models import Profile ,pet ,adoption ,breed
+from .models import Profile ,pet ,adoption ,breed ,Payment
 
 
 class SignUpForm(UserCreationForm):
@@ -145,3 +145,14 @@ class AdoptionForm(forms.ModelForm):
                 'declaration': forms.CheckboxInput(attrs={'class': 'form-check-input'}),}
         
         help_texts = { 'declaration': 'I hereby declare that the information provided is true and correct to the best of my knowledge and belief. And i will be fully responsable for this animal and take good care of it.', }
+
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        fields = ['card_number', 'expiry_date', 'cvv', 'amount']
+        widgets = {
+            'card_number': forms.TextInput(attrs={'placeholder': 'Card Number'}),
+            'expiry_date': forms.TextInput(attrs={'placeholder': 'MM/YY'}),
+            'cvv': forms.TextInput(attrs={'placeholder': 'CVV'}),
+            'amount': forms.TextInput(attrs={'placeholder': 'Amount'}),
+        }

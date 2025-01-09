@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm
+from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm
 from django import forms
 from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
 
@@ -345,3 +345,20 @@ def user_adopted_pets(request):
 
 def staff_home(request):
     return render(request, "staff_home.html")
+
+@login_required
+def payment(request):
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            payment = form.save(commit=False)
+            payment.user = request.user
+            payment.save()
+            messages.success(request, 'Payment processed successfully!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PaymentForm()
+    
+    return render(request, 'payment.html', {'form': form})

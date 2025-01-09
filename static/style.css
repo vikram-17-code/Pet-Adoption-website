@@ -54,6 +54,13 @@ nav ul li a { color: #fff; text-decoration: none; }
 .welcome h2 { font-size: 2.5rem; color: #333; } 
 .welcome p { font-size: 1.2rem; color: #555; }
 
+/* Donate Us section */
+.donate {max-width: 800px;margin: 2rem auto;padding: 2rem;background-color: #fff;border-radius: 5px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);text-align: center;}
+.donate h2 {color: #333;margin-bottom: 1rem;} 
+.donate p {font-size: 1.1rem;margin-bottom: 1.5rem;}
+.donate .btn {display: inline-block;background-color: #ff6600;color: #fff;padding: 0.75rem 1.5rem;text-decoration: none;border-radius: 5px;transition: background-color 0.3s ease;}
+.donate .btn:hover {background-color: #e65c00;}
+
 /* breed category pager */
 
 .breed-container { max-width: 800px; margin: 2rem auto; padding: 1rem; 
@@ -193,6 +200,17 @@ h2 { color: #333; }
        font-size: 1rem; transition: background-color 0.3s ease; }
 .breed_recom_container .btn:hover { background-color: #0056b3; }
 
+
+/* Payment form styles */
+.payment {max-width: 600px;margin: 2rem auto;padding: 2rem;background-color: #fff;
+      border-radius: 5px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);}  
+.payment h2 {text-align: center;color: #333;margin-bottom: 1rem;}
+.payment form {display: grid;grid-template-columns: auto 1fr;gap: 1rem;align-items: center;}
+.payment form label {text-align: right;font-weight: bold;padding-right: 1rem;} 
+.payment form input {padding: 0.75rem;border: 1px solid #ccc;border-radius: 5px;font-size: 1rem;width: 100%;box-sizing: border-box;}
+.payment form button {padding: 0.75rem;border: none;border-radius: 5px;font-size: 1rem;background-color: #28a745;
+      color: #fff;cursor: pointer;transition: background-color 0.3s ease;grid-column: span 2;justify-self: center;}  
+.payment form button:hover {background-color: #218838;}
 
 
 .about { padding: 40px; background-color: #ffffff; box-shadow: 0 0 10px rgba(0,0,0,0.1); 

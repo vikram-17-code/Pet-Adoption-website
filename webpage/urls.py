@@ -23,4 +23,6 @@ urlpatterns = [
    path('manage_adoptions/', views.manage_adoptions, name='manage_adoptions'),
    path('my_adopted_pets/', views.user_adopted_pets, name='user_adopted_pets'),
    path('staff_home/', views.staff_home, name='staff_home'),
+   path('payment/', views.payment, name='payment'),
+
 ]
