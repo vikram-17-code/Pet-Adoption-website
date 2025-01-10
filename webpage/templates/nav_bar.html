@@ -22,18 +22,6 @@
             </div> 
         </li>
         {%endif%}
-        {% if user.is_staff %}
-        <li class="dropdown"> 
-            <a href="#" class="dropbtn">Staff</a> 
-            <div class="dropdown-content"> 
-                <a href="{% url 'add_pet' %}">Add pets</a>
-                <a href="{% url 'manage_pets' %}">Manage Pets</a>
-                <a href="{% url 'manage_adoptions' %}">Manage Adoptions</a>
-                
-                </div> 
-            </li>
-        {% endif %}
-    
     </ul>
     {% if user.is_authenticated %}
     

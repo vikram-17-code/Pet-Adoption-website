@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm,ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm ,SearchForm ,ReportForm
+from .forms import SignUpForm, UpdateUserForm,ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm ,SearchForm ,ReportForm ,AddBreedForm
 from django import forms
 from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
 from django.utils import timezone
@@ -377,3 +377,52 @@ def generate_report(request):
         }
 
     return render(request, "generate_report.html", {"report_form": report_form, "report_data": report_data})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def add_breed(request):
+    if request.method == 'POST':
+        form = AddBreedForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Breed added successfully!')
+            return redirect('manage_breeds')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = AddBreedForm()
+    
+    return render(request, 'add_breed.html', {'form': form})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def manage_breeds(request):
+    breeds = breed.objects.all()
+    return render(request, 'manage_breeds.html', {'breeds': breeds,})
+
+
+
+@user_passes_test(lambda u: u.is_staff)
+def update_breed(request, pk):
+    breed_instance = get_object_or_404(breed, pk=pk)
+    if request.method == 'POST':
+        form = AddBreedForm(request.POST, instance=breed_instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Breed updated successfully!')
+            return redirect('manage_breeds')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = AddBreedForm(instance=breed_instance)
+    
+    return render(request, 'update_breed.html', {'form': form, 'breed': breed_instance})
+
+@user_passes_test(lambda u: u.is_staff)
+def delete_breed(request, pk):
+    breed = get_object_or_404(breed, pk=pk)
+    if request.method == 'POST':
+        breed.delete()
+        messages.success(request, 'Breed deleted successfully!')
+        return redirect('manage_breeds')
+    return render(request, 'manage_breeds.html')

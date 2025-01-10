@@ -172,3 +172,19 @@ class ReportForm(forms.Form):
         ('last_week', 'Last Week'),
         ('last_month', 'Last Month')
     ], required=True, label="Date Range")
+
+
+class AddBreedForm(forms.ModelForm):
+    class Meta:
+        model = breed
+        fields = ['name', 'activity_level', 'good_with_kids', 'Guard_dog', 'athletic', 'size', 'low_shedding', 'first_time_owner']
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Breed Name'}),
+            'activity_level': forms.Select(),
+            'good_with_kids': forms.CheckboxInput(),
+            'Guard_dog': forms.CheckboxInput(),
+            'athletic': forms.CheckboxInput(),
+            'size': forms.Select(),
+            'low_shedding': forms.CheckboxInput(),
+            'first_time_owner': forms.CheckboxInput(),
+        }

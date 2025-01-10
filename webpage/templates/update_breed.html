@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="update_breed" class="update_breed">
+    <h2>Update Breed</h2>
+    <form method="POST" action="{% url 'update_breed' breed.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><br>
+        <button type="submit" class="btn">Update Breed</button>
+    </form>
+</section>
+<br><br>
+{% endblock %}

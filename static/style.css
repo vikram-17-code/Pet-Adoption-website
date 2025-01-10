@@ -80,21 +80,21 @@ nav ul li a { color: #fff; text-decoration: none; }
      text-decoration: none; border-radius: 5px; margin-top: 1rem; }
 
 /* add new pet  page*/
-.add_pet { max-width: 800px; margin: 2rem auto; padding: 2rem;
+.add_pet_breed { max-width: 800px; margin: 2rem auto; padding: 2rem;
       background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-.add_pet h2 { text-align: center; color: #333; margin-bottom: 1rem; } 
-.add_pet form { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; } 
-.add_pet form label { text-align: right; font-weight: bold; padding-right: 1rem; } 
-.add_pet form input, .add_pet form select, .add_pet form textarea { padding: 0.75rem; border: 1px solid #ccc;
+.add_pet_breed h2 { text-align: center; color: #333; margin-bottom: 1rem; } 
+.add_pet_breed form { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; } 
+.add_pet_breed form label { text-align: right; font-weight: bold; padding-right: 1rem; } 
+.add_pet_breed form input, .add_pet_breed form select, .add_pet_breed form textarea { padding: 0.75rem; border: 1px solid #ccc;
       border-radius: 5px; font-size: 1rem; width: 100%; box-sizing: border-box;
        /* Ensure padding and border are included in the element's total width and height */ } 
-.add_pet form button { padding: 0.75rem; border: none; border-radius: 5px; font-size: 1rem; 
+.add_pet_breed form button { padding: 0.75rem; border: none; border-radius: 5px; font-size: 1rem; 
       background-color: #28a745; color: #fff; cursor: pointer; transition: background-color 0.3s ease; 
       grid-column: span 2;justify-self: center; }
-.add_pet form input[type="checkbox"] { width: auto;margin-left: 0; }
-.add_pet form textarea { resize: vertical;  height: 100px;  } 
-.add_pet form .short-input { max-width: 300px;}
-.add_pet form button:hover { background-color: #218838; }
+.add_pet_breed form input[type="checkbox"] { width: auto;margin-left: 0; }
+.add_pet_breed form textarea { resize: vertical;  height: 100px;  } 
+.add_pet_breed form .short-input { max-width: 300px;}
+.add_pet_breed form button:hover { background-color: #218838; }
 
 
 /* manage pets page*/
