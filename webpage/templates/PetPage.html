@@ -27,10 +27,13 @@
     <div class="adoption-section" > <a href="#" class="adopt-button" style="background-color:rgb(37, 44, 38)">Adopt Me</a> </div>
     {% else %}
     
-    <div class="adoption-section"> <a href="{% url 'adopt_pet' Pet.id%}" class="adopt-button">Adopt Me</a> 
+    <div class="adoption-section">  
     {% if user.is_staff%}
      <a href="{%url "update_pet" Pet.id%}" class="adopt-button">Update pet</a> 
-    </div> 
+    
+    {% else %}
+    <a href="{% url 'adopt_pet' Pet.id%}" class="adopt-button">Adopt Me</a>
+    </div>
     {% endif%}
     
     {% endif %}

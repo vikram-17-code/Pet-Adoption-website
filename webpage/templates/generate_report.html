@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="search_report" class="search_report">
+    <h2>Generate Report</h2>
+    <form method="GET" action="{% url 'generate_report' %}">
+        {{ report_form.as_p }}
+        <button type="submit" class="btn">Generate Report</button>
+    </form>
+
+    {% if report_data %}
+    <h3>Report Results</h3>
+    <p>Total Adoptions: {{ report_data.total_adoptions }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Pet Name</th>
+                <th>Breed</th>
+                <th>Adopted By</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for adoption in report_data.adoptions %}
+            <tr>
+                <td>{{ adoption.pet.name }}</td>
+                <td>{{ adoption.pet.breed.name }}</td>
+                <td>{{ adoption.customer.username }}</td>
+                <td>{{ adoption.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</section>
+<br><br><br><br><br><br><br><br>
+{% endblock %}

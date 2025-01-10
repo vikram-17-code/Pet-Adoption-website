@@ -5,10 +5,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm ,SearchForm
+from .forms import SignUpForm, UpdateUserForm,ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm ,SearchForm ,ReportForm
 from django import forms
 from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
-
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your views here.
 def home(request):
@@ -345,3 +346,34 @@ def search_pets(request):
             pets = pets.filter(gender=gender)
     
     return render(request, "search_pets.html", {"pets": pets, "search_form": search_form})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def generate_report(request):
+    report_form = ReportForm(request.GET or None)
+    adoptions = Adoption.objects.all()
+    report_data = None
+
+    if report_form.is_valid():
+        breed = report_form.cleaned_data['breed']
+        date_range = report_form.cleaned_data['date_range']
+        today = timezone.now().date()
+
+        if date_range == 'today':
+            start_date = today
+        elif date_range == 'last_week':
+            start_date = today - timedelta(days=7)
+        elif date_range == 'last_month':
+            start_date = today - timedelta(days=30)
+
+        if breed:
+            adoptions = adoptions.filter(pet__breed=breed)
+
+        adoptions = adoptions.filter(date__gte=start_date)
+
+        report_data = {
+            'total_adoptions': adoptions.count(),
+            'adoptions': adoptions
+        }
+
+    return render(request, "generate_report.html", {"report_form": report_form, "report_data": report_data})

@@ -163,3 +163,12 @@ class SearchForm(forms.Form):
     size = forms.ChoiceField(choices=[('', 'Select Size'),('small', 'Small'), ('medium', 'Medium'), ('large', 'Large')], required=False)
     breed = forms.ModelChoiceField(queryset=breed.objects.all(), required=False, empty_label="Select Breed")
     gender = forms.ChoiceField(choices=[('', 'Select Gender'), ('male', 'Male'), ('female', 'Female')], required=False)
+
+
+class ReportForm(forms.Form):
+    breed = forms.ModelChoiceField(queryset=breed.objects.all(), required=False, empty_label="Select Breed")
+    date_range = forms.ChoiceField(choices=[
+        ('today', 'Today'),
+        ('last_week', 'Last Week'),
+        ('last_month', 'Last Month')
+    ], required=True, label="Date Range")
