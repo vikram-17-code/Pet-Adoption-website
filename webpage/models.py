@@ -48,12 +48,15 @@ class breed(models.Model):
     
 
 class pet(models.Model):
+    SIZE_CHOICES = [ ('small', 'Small'), ('medium', 'Medium'), ('large', 'Large'), ]
+    GENDER_CHOICES =[("female","Female"),("male","Male")]
+
     name=models.CharField(max_length=50)
     age=models.CharField(max_length=20)
     breed=models.ForeignKey(breed,on_delete=models.CASCADE,default=1)
-    gender=models.CharField(max_length=10,)
+    gender=models.CharField(max_length=10,choices=GENDER_CHOICES ,default='male')
     description = models.TextField(max_length=300,blank=True)
-    size=models.TextField(max_length=20)
+    size = models.CharField(max_length=10, choices=SIZE_CHOICES, default='medium')
     vaccinations = models.BooleanField(default=False)
     spayed_neutered = models.BooleanField(default=False)
     medical_conditions = models.CharField(max_length=100, blank=True)

@@ -156,3 +156,10 @@ class PaymentForm(forms.ModelForm):
             'cvv': forms.TextInput(attrs={'placeholder': 'CVV'}),
             'amount': forms.TextInput(attrs={'placeholder': 'Amount'}),
         }
+
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'Search for pets...'}))
+    age = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'placeholder': 'Age'}))
+    size = forms.ChoiceField(choices=[('', 'Select Size'),('small', 'Small'), ('medium', 'Medium'), ('large', 'Large')], required=False)
+    breed = forms.ModelChoiceField(queryset=breed.objects.all(), required=False, empty_label="Select Breed")
+    gender = forms.ChoiceField(choices=[('', 'Select Gender'), ('male', 'Male'), ('female', 'Female')], required=False)

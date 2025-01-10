@@ -5,26 +5,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm
+from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm ,SearchForm
 from django import forms
 from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
 
 
 # Create your views here.
 def home(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
     pets =pet.objects.all()
-    return render(request, "home.html",{"pets":pets,"Breed":Breed})
+    return render(request, "home.html",{"pets":pets,})
 
 def About(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
-    return render(request,"About.html",{"Breed":Breed})
+   return render(request,"About.html",{})
 
 def login_user(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
+
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -43,7 +38,7 @@ def login_user(request):
             return redirect("login")
     else:
 
-        return render(request,"login.html",{"Breed":Breed})
+        return render(request,"login.html",{})
 
 def logout_user(request):
     logout(request)
@@ -51,8 +46,6 @@ def logout_user(request):
     return redirect("home")
 
 def register(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
     form = SignUpForm()
     if request.method =="POST":
         form = SignUpForm(request.POST)
@@ -72,42 +65,29 @@ def register(request):
             messages.success(request,"Error!,Please try again!")
             redirect("register")
 
-    return render(request,"register.html",{"form":form,"Breed":Breed})
+    return render(request,"register.html",{"form":form,})
 
 def Pet_detail(request,pk):
-    #for dropdown menw
-    Breed =breed.objects.all()
-
-    
     Pet = pet.objects.get(id=pk)
-    return render(request, "petPage.html",{"Pet":Pet,"Breed":Breed})
+    return render(request, "petPage.html",{"Pet":Pet,})
 
 def breed_detail(request,bre):
-
-    #for dropdown menw
-    Breed =breed.objects.all()
-
     bre=bre.replace('-',' ')
-
     try:
         Breed_category = breed.objects.get(name=bre)
         Pet = pet.objects.filter(breed=Breed_category)
-        return render(request, "breed.html",{"Pet":Pet ,"breed":Breed_category,"Breed":Breed})
+        return render(request, "breed.html",{"Pet":Pet ,"breed":Breed_category})
     except:
         messages.success(request,"Error")
         return redirect("home")
 
 def profile(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
     profile = get_object_or_404(Profile, user=request.user)
     
-    return render(request, "profile.html",{"Breed":Breed,"profile":profile})
+    return render(request, "profile.html",{"profile":profile})
 
 
 def update_user(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
     if request.user.is_authenticated:
         current_user=User.objects.get(id=request.user.id)
         user_form = UpdateUserForm(request.POST or None,instance=current_user)
@@ -120,15 +100,13 @@ def update_user(request):
             else:
                 return redirect("home")
         else:
-            return render(request,"update_user.html",{"user_form":user_form,"Breed":Breed})
+            return render(request,"update_user.html",{"user_form":user_form,})
     else:
         messages.success(request,"you must be logged in")
         return redirect("home")
 
 
 def change_password(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
     if request.user.is_authenticated:
         current_user=request.user
         
@@ -145,14 +123,12 @@ def change_password(request):
                     return redirect("change_password")
         else:
             form=ChangePasswordForm(current_user)
-            return render(request,"change_password.html",{"form":form,"Breed":Breed})
+            return render(request,"change_password.html",{"form":form,})
     else:
         messages.success(request,"you must be logged in..")
         return redirect ("home")
     
 def user_info(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
     if request.user.is_authenticated:
         current_user=Profile.objects.get(user__id=request.user.id)
         form = UpdateUserInfo(request.POST or None, instance=current_user)
@@ -164,24 +140,14 @@ def user_info(request):
             else:
                 return redirect("home")
         else:
-            return render(request,"user_info.html",{"form":form,"Breed":Breed})
+            return render(request,"user_info.html",{"form":form,})
     else:
         messages.success(request,"you must be logged in")
         return redirect("home")
 
 
-def breed_category(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
-    
-    return render(request, "breed_category.html",{"Breed":Breed})
-
-
 
 def staff_login(request):
-    #for dropdown menw
-    Breed =breed.objects.all()
-     
     if request.method == 'POST': 
         username = request.POST['username'] 
         password = request.POST['password'] 
@@ -199,7 +165,6 @@ def staff_login(request):
 
 @permission_required('webpage.can_add_pet', raise_exception=True)
 def add_pet(request):
-    #for dropdown menw
     Breed =breed.objects.all()
     
     if request.method == 'POST':
@@ -218,8 +183,6 @@ def add_pet(request):
 
 @user_passes_test(lambda u: u.is_staff) 
 def manage_pets(request):
-   
-    
     pets = pet.objects.all()
     if request.method == 'POST':
         pet_id = request.POST.get('pet_id')
@@ -232,8 +195,6 @@ def manage_pets(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def update_pet(request, pk):
-    #for dropdown menw
-    
     try: 
         Pet = get_object_or_404(pet, pk=pk) 
     except Pet.DoesNotExist: 
@@ -251,7 +212,6 @@ def update_pet(request, pk):
 
 
 def breed_recommendation(request):
-    #For dropdown menu 
     Breed = breed.objects.all() 
     form = BreedRecommendationForm(request.POST) 
 
@@ -362,3 +322,26 @@ def payment(request):
         form = PaymentForm()
     
     return render(request, 'payment.html', {'form': form})
+
+def search_pets(request):
+    pets = pet.objects.all()
+    search_form = SearchForm(request.GET)
+    if search_form.is_valid():
+        query = search_form.cleaned_data['query']
+        age = search_form.cleaned_data['age']
+        size = search_form.cleaned_data['size']
+        breed = search_form.cleaned_data['breed']
+        gender = search_form.cleaned_data['gender']
+        
+        if query:
+            pets = pets.filter(name__icontains=query)
+        if age:
+            pets = pets.filter(age__icontains=age)
+        if size:
+            pets = pets.filter(size=size)
+        if breed:
+            pets = pets.filter(breed=breed)
+        if gender:
+            pets = pets.filter(gender=gender)
+    
+    return render(request, "search_pets.html", {"pets": pets, "search_form": search_form})

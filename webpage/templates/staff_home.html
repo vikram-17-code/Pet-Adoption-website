@@ -1,17 +1,17 @@
 {% extends 'base.html'%}
 
 {% block content%} 
-<div class="breed-container"> 
+<div class="staffhome-container"> 
     <h1>Staff Menu</h1> 
-    <ul class="breed-list"> 
+    <ul class="staffhome-list"> 
     
-        <li class="breed-item"> 
+        <li class="staffhome-item"> 
         <a href="{% url 'add_pet' %}"> Add Pet </a> 
         </li>
-        <li class="breed-item"> 
+        <li class="staffhome-item"> 
             <a href="{% url 'manage_pets' %}"> Manage Pet </a> 
         </li>
-        <li class="breed-item"> 
+        <li class="staffhome-item"> 
             <a href="{% url 'manage_adoptions' %}"> Manage Adoptions</a> 
         </li> 
     

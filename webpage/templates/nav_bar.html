@@ -7,19 +7,7 @@
         <li><a href="{% url "home"%}">Home</a></li>
         <li><a href="{% url "About"%}">About</a></li>
         <li><a href="{% url 'register' %}">Register</a></li>
-        <li class="dropdown"> 
-            <a href="{% url 'breed_category' %}" class="dropbtn">Breeds</a> 
-            <div class="dropdown-content"> 
-                
-
-            {% for breed in Breed%}
-                
-                <a href="{% url 'breed_Page' breed %}">{{breed.name}}</a>
-            
-            {% endfor %}    
-
-            </div> 
-        </li>
+        <li><a href="{% url 'search_pets' %}">Search Pets</a></li>
         <li><a href="{% url 'breed_recommendation' %}">Breed Recommendation</a></li>
         {% if user.is_authenticated %}
         <li class="dropdown"> 

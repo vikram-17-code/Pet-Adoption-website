@@ -15,7 +15,6 @@ urlpatterns = [
    path('add_pet/',views.add_pet, name="add_pet"),
    path('pet/<int:pk>',views.Pet_detail, name="petP"),
    path('breed/<str:bre>',views.breed_detail, name="breed_Page"),
-   path('breed_category',views.breed_category, name="breed_category"),
    path('manage_pets',views.manage_pets, name="manage_pets"),
    path('update_pet/<int:pk>/', views.update_pet, name="update_pet"),
    path('breed_recommendation/',views.breed_recommendation, name="breed_recommendation"),
@@ -24,5 +23,5 @@ urlpatterns = [
    path('my_adopted_pets/', views.user_adopted_pets, name='user_adopted_pets'),
    path('staff_home/', views.staff_home, name='staff_home'),
    path('payment/', views.payment, name='payment'),
-
+   path('search/', views.search_pets, name='search_pets'),
 ]
