@@ -61,10 +61,10 @@ def register(request):
             user = authenticate(request,username=username,password=password)
             login(request,user)
             messages.success(request,"You are successfully registered!!")
-            redirect("home")
+            return redirect("home")
         else:
             messages.success(request,"Error!,Please try again!")
-            redirect("register")
+            return redirect("register")
 
     return render(request,"register.html",{"form":form,})
 
@@ -228,14 +228,24 @@ def breed_recommendation(request):
             first_time_owner = form.cleaned_data['first_time_owner'] 
             
             # Filtering logic based on user inputs 
-            recommended_breeds = breed.objects.filter( 
-                activity_level=activity_level, 
-                good_with_kids=good_with_kids,
-                athletic=athletic,
-                Guard_dog=Guard_dog,
-                size=size, 
-                low_shedding=low_shedding, 
-                first_time_owner=first_time_owner ) 
+            filters = {
+                'activity_level': activity_level,
+                'athletic': athletic,
+                'Guard_dog': Guard_dog,
+                'size': size,
+                }
+    
+            if low_shedding:
+                filters['low_shedding'] = low_shedding
+    
+            if first_time_owner:
+                filters['first_time_owner'] = first_time_owner
+
+            if good_with_kids:
+                filters['good_with_kids'] = good_with_kids
+
+            recommended_breeds = breed.objects.filter(**filters)
+
             return render(request, 'breed_recom_result.html', {'form': form, 'recommended_breeds': recommended_breeds, 'Breed': Breed}) 
     else:
         form = BreedRecommendationForm() 

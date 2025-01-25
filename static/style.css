@@ -1,38 +1,66 @@
 /* static/css/style.css */
-body { font-family: Arial, sans-serif; margin: 0; padding: 0;
+body { font-family: 'Times New Roman', sans-serif; margin: 0; padding: 0;
       background-color: #f4f4f4; background-image: url(./petpage_BG_new.jpg); 
       background-size: cover; background-repeat: no-repeat; background-attachment: fixed; } 
 
+nav {background: #333;color: #fff;display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;}
+.nav-container {display: flex;width: 100%;justify-content: space-between;
+      align-items: center;}
+.nav-links-container{display: flex;width: 100%;justify-content: space-between;
+      align-items: center;}
+nav .logo {display: flex;align-items: center;}
+nav .logo h1 {margin-left: 10px;font-family: 'Times New Roman', Times, serif ;}
+.welcome-message {display: inline-block;margin-right: auto;}
+.welcome-message {margin-right: 0.5rem;}
+.nav-links {list-style: none;margin: 0;padding: 0;display: flex;flex-direction: row;
+      align-items: center;}
+nav .nav-links li {margin-right: 2rem;}
+nav .nav-links a {color: #ffffff;text-decoration: none;}
+.nav-login-logout {display: flex;align-items: center;}
+.nav-login-logout > div {margin-left: 1rem;}
+.nav-login .btn{background: #ff6600;color: #fff;padding: 0.5rem 1rem;text-decoration: none;
+      border-radius: 5px;}
+.nav-logout .btn {background: #1f046d;color: #fff;padding: 0.5rem 1rem;text-decoration: none;
+border-radius: 5px;}
+.nav-login .btn:hover, .nav-logout .btn:hover {background: #e65c00;}
+.nav-logout .btn:hover {background: #27068b;}  
+        
 
-nav { background: #333; color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 1rem; } 
-nav .logo h1 { margin: 0; } 
-nav ul { list-style: none; margin: 0; padding: 0; display: flex; padding : 2rem } 
-nav ul li { margin-right: 1rem; } 
-nav ul li a { color: #fff; text-decoration: none; } 
 
-
-
-.nav-login { margin-left: auto; margin-right: 1rem;} 
-.nav-login .btn { background: #ff6600; color: #fff; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; } 
-.nav-login .btn:hover { background: #e65c00; }
-
-
-
-.nav-logout { margin-left: auto; margin-right: 1rem;}
-.nav-logout .btn { background: #151169; color: #fff; padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; } 
-.nav-logout .btn:hover { background: #0b0933; }
-
-
-
-.dropdown { position: relative; } 
-.dropdown .dropbtn { background: none; border: none; cursor: pointer; color: #fff;
-      font-size: 1rem; padding: 0.1rem 0.1rem; } 
-.dropdown-content { display: none; position: absolute; background-color: #f9f9f9;
-      min-width: 160px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); z-index: 1; } 
-.dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; 
-      text-align: left; } 
-.dropdown-content a:hover { background-color: #f1f1f1; } 
-.dropdown:hover .dropdown-content { display: block; }
+.dropdown { 
+      position: relative; 
+  } 
+  .dropdown .dropbtn { 
+      background: none; 
+      border: none; 
+      cursor: pointer; 
+      color: #fff;
+      font-size: 1rem; 
+      padding: 0.1rem 0.1rem; 
+  } 
+  .dropdown-content { 
+      display: none; 
+      position: absolute; 
+      background-color: #333;
+      min-width: 160px; 
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+      z-index: 1; 
+      transition: all 0.3s ease-in-out; /* Add smoother transition */
+  } 
+  .dropdown-content a { 
+      color: black; 
+      padding: 12px 16px; 
+      text-decoration: none; 
+      display: block; 
+      text-align: left; 
+  } 
+  .dropdown-content a:hover { 
+      background-color: #515050; 
+  } 
+  .dropdown:hover .dropdown-content { 
+      display: block; 
+      background-color: #333; /* Small change for interactivity */
+  }
 
 
 .messages .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; position: relative;} 
@@ -79,7 +107,7 @@ nav ul li a { color: #fff; text-decoration: none; }
 .pets .btn { display: block; background: #ff6600; color: #fff; padding: 0.5rem;
      text-decoration: none; border-radius: 5px; margin-top: 1rem; }
 
-/* add new pet  page*/
+/* add new pet  page,update page and breed add page */ 
 .add_pet_breed { max-width: 800px; margin: 2rem auto; padding: 2rem;
       background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
 .add_pet_breed h2 { text-align: center; color: #333; margin-bottom: 1rem; } 

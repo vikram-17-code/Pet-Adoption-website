@@ -1,35 +1,40 @@
 <nav>
-    <div class="logo">
-        <h1>Tailwaggers Adoption center</h1>
+    <div class="nav-container">
+        <div class="logo">
+            <h1>Tailwaggers Adoption Center</h1>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="welcome-message">
+            <span class="welcome-message">Welcome, {{ user.username }}</span>
+        </div>
+        {% endif %}
     </div>
-    <ul>
-        
-        {% if user.is_staff %}
-        <li class="dropdown"> 
-            <a href="#" class="dropbtn">Staff</a> 
-            <div class="dropdown-content"> 
-                <a href="{% url 'add_pet' %}">Add pets</a>
+    <div class="nav-links-container">
+        <ul class="nav-links">
+            <li class="dropdown"> 
+                <a href="#" class="dropbtn">User</a> 
+                <div class="dropdown-content">
+            <a href="{% url 'add_pet' %}">Add pets</a>
                 <a href="{% url 'manage_pets' %}">Manage Pets</a>
                 <a href="{% url 'add_breed' %}">Add Breed</a>
                 <a href="{% url 'manage_breeds' %}">Manage Breeds</a>
                 <a href="{% url 'manage_adoptions' %}">Manage Adoptions</a>
                 <a href="{% url 'generate_report' %}">Generate Report</a>
                 <a href="{% url 'profile' %}">Profile</a>
-                
-                </div> 
+                </div>
             </li>
-        {% endif %}
-    
-    </ul>
-    {% if user.is_authenticated %}
-    
-    
-    <div class="nav-logout"> 
-        <a href="{% url 'logout' %}" class="btn">Logout</a>
+        </ul>
+        <div class="nav-login-logout">
+            {% if user.is_authenticated %}
+            <div class="nav-logout"> 
+                <a href="{% url 'logout' %}" class="btn">Logout</a>
+            </div>
+            {% else %}
+            <div class="nav-login"> 
+                <a href="{% url 'login' %}" class="btn">Login</a>
+            </div>
+            {% endif %}
+        </div>
     </div>
-    {%else %}
-    <div class="nav-login"> 
-        <a href="{% url 'login' %}" class="btn">Login</a>
-    </div>
-    {%endif%}
+</div>
 </nav>

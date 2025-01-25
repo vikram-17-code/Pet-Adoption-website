@@ -1,37 +1,47 @@
-<!-- Navigation Bar -->
+{% load static %}
 <nav>
-    <div class="logo">
-        <h1>Tailwaggers Adoption center</h1>
-    </div>
-    <ul>
-        <li><a href="{% url "home"%}">Home</a></li>
-        <li><a href="{% url "About"%}">About</a></li>
-        <li><a href="{% url 'register' %}">Register</a></li>
-        <li><a href="{% url 'search_pets' %}">Search Pets</a></li>
-        <li><a href="{% url 'breed_recommendation' %}">Breed Recommendation</a></li>
+    <div class="nav-container">
+        <div class="logo">
+            <img src="{% static 'onlyLOGO.jpg' %}" alt="logo" width="70" height="50">
+            <h1>Tailwaggers Adoption Center</h1>
+        </div>
         {% if user.is_authenticated %}
-        <li class="dropdown"> 
-            <a href="#" class="dropbtn">User</a> 
-            <div class="dropdown-content"> 
-                <a href="{% url 'profile' %}">Profile</a>
-                <a href="{% url 'user_adopted_pets' %}">Adopted Pets</a>
-                <a href="{% url 'update_user' %}">Update User</a>
-                <a href="{% url 'user_info' %}">Update Info</a>
-                <a href="{% url 'change_password' %}">Change Password</a>
-                
-            </div> 
-        </li>
-        {%endif%}
-    </ul>
-    {% if user.is_authenticated %}
-    
-    
-    <div class="nav-logout"> 
-        <a href="{% url 'logout' %}" class="btn">Logout</a>
+        <div class="welcome-message">
+            <span class="welcome-message">Welcome, {{ user.username }}</span>
+        </div>
+        {% endif %}
     </div>
-    {%else %}
-    <div class="nav-login"> 
-        <a href="{% url 'login' %}" class="btn">Login</a>
+    <div class="nav-links-container">
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'About' %}">About</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'search_pets' %}">Search Pets</a></li>
+            <li><a href="{% url 'breed_recommendation' %}">Breed Recommendation</a></li>
+            {% if user.is_authenticated %}
+            <li class="dropdown"> 
+                <a href="#" class="dropbtn">User</a> 
+                <div class="dropdown-content"> 
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'user_adopted_pets' %}">Adopted Pets</a>
+                    <a href="{% url 'update_user' %}">Update User</a>
+                    <a href="{% url 'user_info' %}">Update Info</a>
+                    <a href="{% url 'change_password' %}">Change Password</a>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+        <div class="nav-login-logout">
+            {% if user.is_authenticated %}
+            <div class="nav-logout"> 
+                <a href="{% url 'logout' %}" class="btn">Logout</a>
+            </div>
+            {% else %}
+            <div class="nav-login"> 
+                <a href="{% url 'login' %}" class="btn">Login</a>
+            </div>
+            {% endif %}
+        </div>
     </div>
-    {%endif%}
+</div>
 </nav>
