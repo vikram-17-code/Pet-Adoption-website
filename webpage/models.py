@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 
 class Profile(models.Model):
     user = models.OneToOneField(User , on_delete= models.CASCADE)
-    phone = models.CharField(max_length=20,blank=True)
+    phone = models.IntegerField(max_length=10,blank=True)
     address = models.CharField(max_length=200,blank=True)
     city = models.CharField(max_length=20,blank=True)
     state = models.CharField(max_length=20,blank=True)
@@ -78,12 +78,13 @@ class adoption(models.Model):
     pet =models.ForeignKey(pet,on_delete=models.CASCADE,default=1)
     customer =models.ForeignKey(User,on_delete=models.CASCADE,default=1)
     address =models.CharField(max_length=100)
-    phone =models.CharField(max_length=15)
+    phone =models.IntegerField(max_length=10)
     city = models.CharField(max_length=20,blank=True)
     state = models.CharField(max_length=20,blank=True)
     zipcode =models.CharField(max_length=15,blank=True)
     declaration =models.BooleanField(default=False)
     date =models.DateField(default=datetime.datetime.today)
+    approval =models.BooleanField(default=False)
     status =models.BooleanField(default=False)
 
 
@@ -91,16 +92,7 @@ class adoption(models.Model):
         return f"Adoption of {self.pet.name} by {self.customer.username}"
 
 
-class Payment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    card_number = models.CharField(max_length=16)
-    expiry_date = models.CharField(max_length=5)
-    cvv = models.CharField(max_length=3)
-    date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"Payment of {self.amount} by {self.user.username}"
 
 # Create your models here.
 

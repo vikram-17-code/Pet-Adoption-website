@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm,ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm ,PaymentForm ,SearchForm ,ReportForm ,AddBreedForm
+from .forms import SignUpForm, UpdateUserForm,ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm,SearchForm ,ReportForm ,AddBreedForm
 from django import forms
 from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
 from django.utils import timezone
@@ -14,6 +14,10 @@ from datetime import timedelta
 # Create your views here.
 def home(request):
     pets =pet.objects.all()
+    if request.user.is_authenticated:
+        adoptions = Adoption.objects.filter(customer=request.user)
+        if any(adoption.approval and not adoption.status for adoption in adoptions):
+            messages.success(request, "One or more of your adoption requests have been approved!")
     return render(request, "home.html",{"pets":pets,})
 
 def About(request):
@@ -305,6 +309,11 @@ def manage_adoptions(request):
             pet.save()
             adoption.delete()
             messages.success(request, "Adoption deleted successfully!")
+        elif action == 'change_approval':
+            if not adoption.approval:
+                adoption.approval = True
+                adoption.save()
+                messages.success(request, "Adoption approval status changed successfully!")
         return redirect('manage_adoptions')
     
     return render(request, "manage_adoptions.html", {"adoptions": adoptions})
@@ -312,27 +321,13 @@ def manage_adoptions(request):
 @login_required
 def user_adopted_pets(request):
     adoptions = Adoption.objects.filter(customer=request.user)
+    if any(adoption.approval and not adoption.status for adoption in adoptions):
+        messages.success(request, "One or more of your adoption requests have been approved!")
     return render(request, "user_adopted_pets.html", {"adoptions": adoptions})
 
 def staff_home(request):
     return render(request, "staff_home.html")
 
-@login_required
-def payment(request):
-    if request.method == 'POST':
-        form = PaymentForm(request.POST)
-        if form.is_valid():
-            payment = form.save(commit=False)
-            payment.user = request.user
-            payment.save()
-            messages.success(request, 'Payment processed successfully!')
-            return redirect('home')
-        else:
-            messages.error(request, 'Please correct the errors below.')
-    else:
-        form = PaymentForm()
-    
-    return render(request, 'payment.html', {'form': form})
 
 def search_pets(request):
     pets = pet.objects.all()

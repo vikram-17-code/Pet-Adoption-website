@@ -3,6 +3,7 @@
 {% block content %}
     <section style=" padding: 2rem; text-align: center; background-color: #f8f9fa; margin: 0 auto;">
     <h1>My Adopted Pets</h1>
+    
     {% if adoptions %}
         <table>
             <thead>
@@ -11,6 +12,7 @@
                     <th>Adoption Date</th>
                     <th>Address</th>
                     <th>Phone</th>
+                    <th>Approval</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,10 +22,13 @@
                     <td>{{ adoption.date }}</td>
                     <td>{{ adoption.address }}</td>
                     <td>{{ adoption.phone }}</td>
+                    <td>{{ adoption.approval }}</td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <p>Please wait 2 to 3 days for our staff to see Approvals.</p>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     {% else %}
         <p>You have not adopted any pets yet.</p>

@@ -1,6 +1,8 @@
+{% load static %}
 <nav>
     <div class="nav-container">
         <div class="logo">
+            <img src="{% static 'onlyLOGO.jpg' %}" alt="logo" width="70" height="50">
             <h1>Tailwaggers Adoption Center</h1>
         </div>
         {% if user.is_authenticated %}

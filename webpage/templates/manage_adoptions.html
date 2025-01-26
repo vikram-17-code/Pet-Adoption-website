@@ -8,6 +8,7 @@
                 <th>Pet Name</th>
                 <th>Adopted By</th>
                 <th>Adoption Date</th>
+                <th>Approval</th>
                 <th>Got Adopted</th>
                 <th>Actions</th>
             </tr>
@@ -18,14 +19,24 @@
                 <td>{{ adoption.pet.name }}</td>
                 <td>{{ adoption.customer.username }}</td>
                 <td>{{ adoption.date }}</td>
+                <td>{{ adoption.approval }}</td>
                 <td>{{ adoption.status }}</td>
                 <td>
                     <form method="post" action="{% url 'manage_adoptions' %}">
                         {% csrf_token %}
                         <input type="hidden" name="adoption_id" value="{{ adoption.id }}">
                         <input type="hidden" name="action" value="change_status">
-                        <button type="submit" class="update-btn">Change Status</button>
+                        <button type="submit" class="update-btn">Got Adopted</button>
                     </form>
+                    {% if not adoption.approval %}
+                    <form method="post" action="{% url 'manage_adoptions' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="adoption_id" value="{{ adoption.id }}">
+                        <input type="hidden" name="action" value="change_approval">
+                        <button type="submit" class="update-btn">Approve</button>
+                    </form>
+                    {% endif %}
+
                     <form method="post" action="{% url 'manage_adoptions' %}">
                         {% csrf_token %}
                         <input type="hidden" name="adoption_id" value="{{ adoption.id }}">
