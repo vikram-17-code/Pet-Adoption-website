@@ -10,6 +10,14 @@ from django import forms
 from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
 from django.utils import timezone
 from datetime import timedelta
+import matplotlib 
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+from django.db.models import Count
+import urllib.parse
+
+matplotlib.use('Agg')
 
 # Create your views here.
 def home(request):
@@ -89,7 +97,7 @@ def breed_detail(request,bre):
 def profile(request):
     profile = get_object_or_404(Profile, user=request.user)
     
-    return render(request, "profile.html",{"profile":profile})
+    return render(request, "user/profile.html",{"profile":profile})
 
 
 def update_user(request):
@@ -105,7 +113,7 @@ def update_user(request):
             else:
                 return redirect("home")
         else:
-            return render(request,"update_user.html",{"user_form":user_form,})
+            return render(request,"user/update_user.html",{"user_form":user_form,})
     else:
         messages.success(request,"you must be logged in")
         return redirect("home")
@@ -128,7 +136,7 @@ def change_password(request):
                     return redirect("change_password")
         else:
             form=ChangePasswordForm(current_user)
-            return render(request,"change_password.html",{"form":form,})
+            return render(request,"user/change_password.html",{"form":form,})
     else:
         messages.success(request,"you must be logged in..")
         return redirect ("home")
@@ -145,7 +153,7 @@ def user_info(request):
             else:
                 return redirect("home")
         else:
-            return render(request,"user_info.html",{"form":form,})
+            return render(request,"user/user_info.html",{"form":form,})
     else:
         messages.success(request,"you must be logged in")
         return redirect("home")
@@ -183,7 +191,7 @@ def add_pet(request):
             messages.error(request, 'Please correct the errors below.')
     else:
         form = AddPetForm()
-    return render(request, 'add_pet.html', {'form': form,"Breed":Breed})
+    return render(request, 'staff/add_pet.html', {'form': form,"Breed":Breed})
     
 
 @user_passes_test(lambda u: u.is_staff) 
@@ -195,7 +203,7 @@ def manage_pets(request):
         pet_to_delete.delete()
         messages.success(request, "Pet deleted successfully!")
         return redirect('manage_pets')
-    return render(request, "manage_pets.html", {"pets": pets,})
+    return render(request, "staff/manage_pets.html", {"pets": pets,})
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -213,7 +221,7 @@ def update_pet(request, pk):
             return redirect('petP', pk=Pet.pk)
     else:
         form = UpdatePetForm(instance=Pet)
-    return render(request, "update_pet.html", {"form": form, "pet": Pet,})
+    return render(request, "staff/update_pet.html", {"form": form, "pet": Pet,})
 
 
 def breed_recommendation(request):
@@ -316,17 +324,17 @@ def manage_adoptions(request):
                 messages.success(request, "Adoption approval status changed successfully!")
         return redirect('manage_adoptions')
     
-    return render(request, "manage_adoptions.html", {"adoptions": adoptions})
+    return render(request, "staff/manage_adoptions.html", {"adoptions": adoptions})
 
 @login_required
 def user_adopted_pets(request):
     adoptions = Adoption.objects.filter(customer=request.user)
     if any(adoption.approval and not adoption.status for adoption in adoptions):
         messages.success(request, "One or more of your adoption requests have been approved!")
-    return render(request, "user_adopted_pets.html", {"adoptions": adoptions})
+    return render(request, "user/user_adopted_pets.html", {"adoptions": adoptions})
 
 def staff_home(request):
-    return render(request, "staff_home.html")
+    return render(request, "staff/staff_home.html")
 
 
 def search_pets(request):
@@ -356,8 +364,10 @@ def search_pets(request):
 @user_passes_test(lambda u: u.is_staff)
 def generate_report(request):
     report_form = ReportForm(request.GET or None)
-    adoptions = Adoption.objects.all()
+    adoptions = Adoption.objects.filter(status=True)
     report_data = None
+    chart_data = None
+
 
     if report_form.is_valid():
         breed = report_form.cleaned_data['breed']
@@ -370,6 +380,8 @@ def generate_report(request):
             start_date = today - timedelta(days=7)
         elif date_range == 'last_month':
             start_date = today - timedelta(days=30)
+        elif date_range == 'last_year':
+            start_date = today - timedelta(days=365)
 
         if breed:
             adoptions = adoptions.filter(pet__breed=breed)
@@ -381,7 +393,31 @@ def generate_report(request):
             'adoptions': adoptions
         }
 
-    return render(request, "generate_report.html", {"report_form": report_form, "report_data": report_data})
+        if adoptions.exists():
+            # Generate chart data
+            chart_data = adoptions.values('pet__breed__name').annotate(count=Count('id'))
+
+            # Clear the previous plot
+            plt.clf()
+
+            # Create a pie chart
+            labels = [data['pet__breed__name'] for data in chart_data]
+            sizes = [data['count'] for data in chart_data]
+            colors = plt.cm.Paired(range(len(labels)))
+
+            plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+            plt.axis('equal')
+
+            # Save the plot to a BytesIO object
+            buf = BytesIO()
+            plt.savefig(buf, format='png')
+            buf.seek(0)
+            string = base64.b64encode(buf.read())
+            uri = 'data:image/png;base64,' + urllib.parse.quote(string)
+
+            return render(request, "staff/generate_report.html", {"report_form": report_form, "report_data": report_data, "chart_data": uri})
+
+    return render(request, "staff/generate_report.html", {"report_form": report_form, "report_data": report_data})
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -397,13 +433,13 @@ def add_breed(request):
     else:
         form = AddBreedForm()
     
-    return render(request, 'add_breed.html', {'form': form})
+    return render(request, 'staff/add_breed.html', {'form': form})
 
 
 @user_passes_test(lambda u: u.is_staff)
 def manage_breeds(request):
     breeds = breed.objects.all()
-    return render(request, 'manage_breeds.html', {'breeds': breeds,})
+    return render(request, 'staff/manage_breeds.html', {'breeds': breeds,})
 
 
 
@@ -421,7 +457,7 @@ def update_breed(request, pk):
     else:
         form = AddBreedForm(instance=breed_instance)
     
-    return render(request, 'update_breed.html', {'form': form, 'breed': breed_instance})
+    return render(request, 'staff/update_breed.html', {'form': form, 'breed': breed_instance})
 
 @user_passes_test(lambda u: u.is_staff)
 def delete_breed(request, pk):
@@ -430,4 +466,4 @@ def delete_breed(request, pk):
         breed.delete()
         messages.success(request, 'Breed deleted successfully!')
         return redirect('manage_breeds')
-    return render(request, 'manage_breeds.html')
+    return render(request, 'staff/manage_breeds.html')

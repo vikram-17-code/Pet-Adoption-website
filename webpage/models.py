@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 
 class Profile(models.Model):
     user = models.OneToOneField(User , on_delete= models.CASCADE)
-    phone = models.IntegerField(max_length=10,blank=True)
+    phone = models.IntegerField(blank=True)
     address = models.CharField(max_length=200,blank=True)
     city = models.CharField(max_length=20,blank=True)
     state = models.CharField(max_length=20,blank=True)
@@ -36,6 +36,7 @@ class breed(models.Model):
     Guard_dog = models.BooleanField(default=False)
     athletic = models.BooleanField(default=False)
     first_time_owner = models.BooleanField(default=False)
+    image=models.ImageField(upload_to=("upload/image/"), blank=True)
     activity_level = models.CharField(max_length=10, choices=ACTIVITY_LEVEL_CHOICES, default='medium')
     size = models.CharField(max_length=10, choices=SIZE_CHOICES, default='medium')
     
@@ -78,7 +79,7 @@ class adoption(models.Model):
     pet =models.ForeignKey(pet,on_delete=models.CASCADE,default=1)
     customer =models.ForeignKey(User,on_delete=models.CASCADE,default=1)
     address =models.CharField(max_length=100)
-    phone =models.IntegerField(max_length=10)
+    phone =models.IntegerField()
     city = models.CharField(max_length=20,blank=True)
     state = models.CharField(max_length=20,blank=True)
     zipcode =models.CharField(max_length=15,blank=True)

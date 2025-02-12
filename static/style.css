@@ -3,6 +3,7 @@ body { font-family: 'Times New Roman', sans-serif; margin: 0; padding: 0;
       background-color: #f4f4f4; background-image: url(./petpage_BG_new.jpg); 
       background-size: cover; background-repeat: no-repeat; background-attachment: fixed; } 
 
+
 nav {background: #333;color: #fff;display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;}
 .nav-container {display: flex;width: 100%;justify-content: space-between;
       align-items: center;}
@@ -10,8 +11,12 @@ nav {background: #333;color: #fff;display: flex;flex-direction: column;align-ite
       align-items: center;}
 nav .logo {display: flex;align-items: center;}
 nav .logo h1 {margin-left: 10px;font-family: 'Times New Roman', Times, serif ;}
+
+
 .welcome-message {display: inline-block;margin-right: auto;}
 .welcome-message {margin-right: 0.5rem;}
+
+
 .nav-links {list-style: none;margin: 0;padding: 0;display: flex;flex-direction: row;
       align-items: center;}
 nav .nav-links li {margin-right: 2rem;}
@@ -21,46 +26,22 @@ nav .nav-links a {color: #ffffff;text-decoration: none;}
 .nav-login .btn{background: #ff6600;color: #fff;padding: 0.5rem 1rem;text-decoration: none;
       border-radius: 5px;}
 .nav-logout .btn {background: #1f046d;color: #fff;padding: 0.5rem 1rem;text-decoration: none;
-border-radius: 5px;}
+      border-radius: 5px;}
 .nav-login .btn:hover, .nav-logout .btn:hover {background: #e65c00;}
 .nav-logout .btn:hover {background: #27068b;}  
         
 
 
-.dropdown { 
-      position: relative; 
-  } 
-  .dropdown .dropbtn { 
-      background: none; 
-      border: none; 
-      cursor: pointer; 
-      color: #fff;
-      font-size: 1rem; 
-      padding: 0.1rem 0.1rem; 
-  } 
-  .dropdown-content { 
-      display: none; 
-      position: absolute; 
-      background-color: #333;
-      min-width: 160px; 
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
-      z-index: 1; 
-      transition: all 0.3s ease-in-out; /* Add smoother transition */
-  } 
-  .dropdown-content a { 
-      color: black; 
-      padding: 12px 16px; 
-      text-decoration: none; 
-      display: block; 
-      text-align: left; 
-  } 
-  .dropdown-content a:hover { 
-      background-color: #515050; 
-  } 
-  .dropdown:hover .dropdown-content { 
-      display: block; 
-      background-color: #333; /* Small change for interactivity */
-  }
+.dropdown { position: relative; }
+.dropdown .dropbtn { background: none; border: none; cursor: pointer;
+      color: #fff;font-size: 1rem; padding: 0.1rem 0.1rem; } 
+.dropdown-content { display: none; position: absolute; background-color: #333;
+      min-width: 160px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+      z-index: 1; transition: all 0.3s ease-in-out;} 
+.dropdown-content a { color: black; padding: 12px 16px; 
+      text-decoration: none; display: block; text-align: left; } 
+.dropdown-content a:hover { background-color: #515050; } 
+.dropdown:hover .dropdown-content { display: block; background-color: #333;}
 
 
 .messages .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; position: relative;} 
@@ -107,19 +88,18 @@ border-radius: 5px;}
 .pets .btn { display: block; background: #ff6600; color: #fff; padding: 0.5rem;
      text-decoration: none; border-radius: 5px; margin-top: 1rem; }
 
-/* add new pet  page,update page and breed add page */ 
+/* add new pet  page,update page ,add breed page and update breed page */ 
 .add_pet_breed { max-width: 800px; margin: 2rem auto; padding: 2rem;
       background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
 .add_pet_breed h2 { text-align: center; color: #333; margin-bottom: 1rem; } 
-.add_pet_breed form { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; } 
+.add_pet_breed form { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;  } 
 .add_pet_breed form label { text-align: right; font-weight: bold; padding-right: 1rem; } 
-.add_pet_breed form input, .add_pet_breed form select, .add_pet_breed form textarea { padding: 0.75rem; border: 1px solid #ccc;
-      border-radius: 5px; font-size: 1rem; width: 100%; box-sizing: border-box;
-       /* Ensure padding and border are included in the element's total width and height */ } 
+.add_pet_breed form input, .add_pet_breed form select, .add_pet_breed form textarea { padding: 0.75rem; border: 1px solid #333;;
+      border-radius: 5px; font-size: 1rem; width: 100%; box-sizing: border-box; } 
 .add_pet_breed form button { padding: 0.75rem; border: none; border-radius: 5px; font-size: 1rem; 
       background-color: #28a745; color: #fff; cursor: pointer; transition: background-color 0.3s ease; 
       grid-column: span 2;justify-self: center; }
-.add_pet_breed form input[type="checkbox"] { width: auto;margin-left: 0; }
+.add_pet_breed form input[type="checkbox"] { width: auto;margin-left: 0;border: 1px solid #333; }
 .add_pet_breed form textarea { resize: vertical;  height: 100px;  } 
 .add_pet_breed form .short-input { max-width: 300px;}
 .add_pet_breed form button:hover { background-color: #218838; }
@@ -147,7 +127,7 @@ table tr:nth-child(odd) { background-color: #ffffff;}
 .login form { margin-top: 1rem; display: block; text-align: left; }
 .login .form-group { margin-bottom: 1rem; } 
 .login .form-group label { display: block; font-size: 1.2rem; color: #333; margin-bottom: 0.5rem; } 
-.login .form-group input { width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; } 
+.login .form-group input { width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #333; border-radius: 5px; } 
 .login .btn { display: inline-block; background: #ff6600; color: #fff; padding: 0.5rem 1rem;
       text-decoration: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; }
 
@@ -158,7 +138,7 @@ table tr:nth-child(odd) { background-color: #ffffff;}
 .signup form { margin-top: 1rem; display: inline-block; text-align: left; } 
 .signup form p { margin-bottom: 1rem; } 
 .signup form label { display: block; font-size: 1.2rem; color: #333; margin-bottom: 0.5rem; } 
-.signup form input { width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; } 
+.signup form input { width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #333;; border-radius: 5px; } 
 .signup .btn { display: inline-block; background: #ff6600; color: #fff;
        padding: 0.5rem 1rem; text-decoration: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; }
 

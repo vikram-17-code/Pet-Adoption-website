@@ -25,10 +25,25 @@
             <td>{{ pet.age }}</td>
             <td>{{ pet.gender }}</td>
             <td>{{ pet.size }}</td>
-            <td>{{ pet.vaccinations }}</td>
-            <td>{{ pet.spayed_neutered }}</td>
+            <td>{% if pet.vaccinations %}
+                YES
+                {% else %}
+                NO
+                {% endif %}
+            </td>
+            <td>{%if  pet.spayed_neutered %}
+                YES
+                {% else %}
+                NO
+                {% endif %}
+            </td>
             <td>{{ pet.medical_conditions }}</td>
-            <td>{{ pet.is_adopted }}</td>
+            <td>{% if pet.is_adopted %}
+                YES
+                {% else %}
+                NO
+                {% endif %}
+            </td>
 
 
             <td> <form method="POST"> 

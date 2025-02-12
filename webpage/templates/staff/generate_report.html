@@ -31,7 +31,17 @@
             {% endfor %}
         </tbody>
     </table>
+
     {% endif %}
+
+
+    {% if report_data.total_adoptions > 0 %}
+    <h2>Report Chart</h2>
+    <img src="{{ chart_data }}" alt="Pie chart">
+    {% endif %}
+
+
 </section>
+
 <br><br><br><br><br><br><br><br>
 {% endblock %}

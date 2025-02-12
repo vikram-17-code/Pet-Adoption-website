@@ -11,6 +11,21 @@
 {% else %}
     <p>No breeds match your preferences.</p>
 {% endif %}
+{% if recommended_breeds %}
+<h2>images</h2>
+<ul>
+    {% for breed in recommended_breeds %}
+        <li>
+            <h3>{{ breed.name }}</h3>
+            {% if breed.image %}
+                <img src="{{ breed.image.url }}" alt="{{ breed.name }}" style="width:200px;height:auto;">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
 <a href="{% url 'breed_recommendation' %}" class="btn">Try Again</a>
 </section>
 

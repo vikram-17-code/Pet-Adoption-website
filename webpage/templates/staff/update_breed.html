@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section id="update_breed" class="update_breed">
+<section id="add_pet_breed" class="add_pet_breed">
     <h2>Update Breed</h2>
     <form method="POST" action="{% url 'update_breed' breed.pk %}">
         {% csrf_token %}

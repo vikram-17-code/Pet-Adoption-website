@@ -133,6 +133,12 @@ class BreedRecommendationForm(forms.Form):
 class AdoptionForm(forms.ModelForm):
     pet_name = forms.CharField(label="Pet Name", max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})) 
     user_name  = forms.CharField(label="Name", max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
+    city = forms.CharField(label="City", max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'city'}))
+    state = forms.CharField(label="State", max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'state'}))
+    zipcode = forms.CharField(label="Zipcode", max_length=10, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'zipcode'}))
+    declaration = forms.BooleanField(label="Declaration", required=True, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),help_text='I hereby declare that the information provided is true and correct to the best of my knowledge and belief. And I will be fully responsible for this animal and take good care of it.'
+    )
+        
     class Meta:
         model = adoption
         fields = ['user_name', 'pet', 'pet_name',  'phone', 'address','city','state','zipcode','declaration']
@@ -142,11 +148,9 @@ class AdoptionForm(forms.ModelForm):
                 'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'city'}),
                 'state': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'state'}),
                 'zipcode': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'zipcode'}),
-                'declaration': forms.CheckboxInput(attrs={'class': 'form-check-input'}),}
+                'declaration': forms.CheckboxInput(attrs={'class': 'form-check-input',}),}
         
-        help_texts = { 'declaration': 'I hereby declare that the information provided is true and correct to the best of my knowledge and belief. And i will be fully responsable for this animal and take good care of it.', }
-
-    
+        
 
 class SearchForm(forms.Form):
     query = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'Search for pets...'}))
@@ -161,14 +165,16 @@ class ReportForm(forms.Form):
     date_range = forms.ChoiceField(choices=[
         ('today', 'Today'),
         ('last_week', 'Last Week'),
-        ('last_month', 'Last Month')
+        ('last_month', 'Last Month'),
+        ('last_year', 'Last Year'),
+
     ], required=True, label="Date Range")
 
 
 class AddBreedForm(forms.ModelForm):
     class Meta:
         model = breed
-        fields = ['name', 'activity_level', 'good_with_kids', 'Guard_dog', 'athletic', 'size', 'low_shedding', 'first_time_owner']
+        fields = ['name', 'activity_level', 'good_with_kids', 'Guard_dog', 'athletic', 'size', 'low_shedding', 'first_time_owner','image']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Breed Name'}),
             'activity_level': forms.Select(),
@@ -178,4 +184,5 @@ class AddBreedForm(forms.ModelForm):
             'size': forms.Select(),
             'low_shedding': forms.CheckboxInput(),
             'first_time_owner': forms.CheckboxInput(),
+            'image': forms.ClearableFileInput()
         }
