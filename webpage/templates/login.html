@@ -18,6 +18,19 @@
     <p>Are you a Staff?
     <a href="{% url 'staff_login' %}">Staff_login</a>.
     </p>
+    <script>
+        // Clear form fields on page show
+        window.addEventListener('pageshow', function() {
+            document.querySelectorAll('form input').forEach(function(input) {
+                if (input.type !== 'hidden') {
+                    input.value = '';
+                }
+            });
+        });
+    </script>
     </section>
     <br><br>
+
+    
+
     {% endblock %}

@@ -2,10 +2,12 @@ from django.db import models
 import datetime
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.core.validators import RegexValidator
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User , on_delete= models.CASCADE)
-    phone = models.IntegerField(blank=True)
+    phone = models.CharField(max_length=10,blank=True,validators=[RegexValidator(regex='^\d{10,15}$', message='Phone number must be 10 to 15 digits long')])
     address = models.CharField(max_length=200,blank=True)
     city = models.CharField(max_length=20,blank=True)
     state = models.CharField(max_length=20,blank=True)
@@ -79,7 +81,7 @@ class adoption(models.Model):
     pet =models.ForeignKey(pet,on_delete=models.CASCADE,default=1)
     customer =models.ForeignKey(User,on_delete=models.CASCADE,default=1)
     address =models.CharField(max_length=100)
-    phone =models.IntegerField()
+    phone = models.CharField(max_length=10,validators=[RegexValidator(regex='^\d{10,15}$', message='Phone number must be 10 to 15 digits long')])
     city = models.CharField(max_length=20,blank=True)
     state = models.CharField(max_length=20,blank=True)
     zipcode =models.CharField(max_length=15,blank=True)

@@ -10,4 +10,13 @@
         </form>
     </section>
     <br><br>
+
+    <script>
+        // Clear form fields on page load
+        window.onload = function() {
+            document.querySelectorAll('form input').forEach(function(input) {
+                input.value = '';
+            });
+        };
+    </script>
     {% endblock %}

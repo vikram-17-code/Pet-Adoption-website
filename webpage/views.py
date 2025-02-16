@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm,ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm,SearchForm ,ReportForm ,AddBreedForm
 from django import forms
 from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
+from django.views.decorators.cache import cache_control
 from django.utils import timezone
 from datetime import timedelta
 import matplotlib 
@@ -20,6 +21,7 @@ import urllib.parse
 matplotlib.use('Agg')
 
 # Create your views here.
+
 def home(request):
     pets =pet.objects.all()
     if request.user.is_authenticated:
@@ -28,9 +30,11 @@ def home(request):
             messages.success(request, "One or more of your adoption requests have been approved!")
     return render(request, "home.html",{"pets":pets,})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def About(request):
    return render(request,"About.html",{})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def login_user(request):
 
     if request.method == "POST":
@@ -52,12 +56,14 @@ def login_user(request):
     else:
 
         return render(request,"login.html",{})
-
+    
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logout_user(request):
     logout(request)
     messages.success(request,"you are logged out!")
     return redirect("home")
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def register(request):
     form = SignUpForm()
     if request.method =="POST":
@@ -93,13 +99,14 @@ def breed_detail(request,bre):
     except:
         messages.success(request,"Error")
         return redirect("home")
-
+    
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def profile(request):
     profile = get_object_or_404(Profile, user=request.user)
     
     return render(request, "user/profile.html",{"profile":profile})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def update_user(request):
     if request.user.is_authenticated:
         current_user=User.objects.get(id=request.user.id)
@@ -118,7 +125,7 @@ def update_user(request):
         messages.success(request,"you must be logged in")
         return redirect("home")
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def change_password(request):
     if request.user.is_authenticated:
         current_user=request.user
@@ -141,6 +148,7 @@ def change_password(request):
         messages.success(request,"you must be logged in..")
         return redirect ("home")
     
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)    
 def user_info(request):
     if request.user.is_authenticated:
         current_user=Profile.objects.get(user__id=request.user.id)
@@ -159,7 +167,7 @@ def user_info(request):
         return redirect("home")
 
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def staff_login(request):
     if request.method == 'POST': 
         username = request.POST['username'] 
@@ -177,6 +185,7 @@ def staff_login(request):
 
 
 @permission_required('webpage.can_add_pet', raise_exception=True)
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_pet(request):
     Breed =breed.objects.all()
     
@@ -195,6 +204,7 @@ def add_pet(request):
     
 
 @user_passes_test(lambda u: u.is_staff) 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def manage_pets(request):
     pets = pet.objects.all()
     if request.method == 'POST':
@@ -207,6 +217,7 @@ def manage_pets(request):
 
 
 @user_passes_test(lambda u: u.is_staff)
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def update_pet(request, pk):
     try: 
         Pet = get_object_or_404(pet, pk=pk) 
@@ -223,7 +234,7 @@ def update_pet(request, pk):
         form = UpdatePetForm(instance=Pet)
     return render(request, "staff/update_pet.html", {"form": form, "pet": Pet,})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def breed_recommendation(request):
     Breed = breed.objects.all() 
     form = BreedRecommendationForm(request.POST) 
@@ -263,7 +274,7 @@ def breed_recommendation(request):
         form = BreedRecommendationForm() 
     return render(request, 'breed_recom.html', {'form': form, 'Breed': Breed})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def adopt_pet(request, pk):
     if request.user.is_authenticated:
         pet_instance = get_object_or_404(pet, pk=pk)
@@ -299,7 +310,8 @@ def adopt_pet(request, pk):
     else:
         messages.error(request, 'You must be logged in!')
         return redirect('home')
-
+    
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)
 def manage_adoptions(request):
     adoptions = Adoption.objects.all()
@@ -326,6 +338,7 @@ def manage_adoptions(request):
     
     return render(request, "staff/manage_adoptions.html", {"adoptions": adoptions})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required
 def user_adopted_pets(request):
     adoptions = Adoption.objects.filter(customer=request.user)
@@ -333,10 +346,11 @@ def user_adopted_pets(request):
         messages.success(request, "One or more of your adoption requests have been approved!")
     return render(request, "user/user_adopted_pets.html", {"adoptions": adoptions})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def staff_home(request):
     return render(request, "staff/staff_home.html")
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def search_pets(request):
     pets = pet.objects.all()
     search_form = SearchForm(request.GET)
@@ -360,7 +374,7 @@ def search_pets(request):
     
     return render(request, "search_pets.html", {"pets": pets, "search_form": search_form})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)
 def generate_report(request):
     report_form = ReportForm(request.GET or None)
@@ -419,7 +433,7 @@ def generate_report(request):
 
     return render(request, "staff/generate_report.html", {"report_form": report_form, "report_data": report_data})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)
 def add_breed(request):
     if request.method == 'POST':
@@ -435,14 +449,14 @@ def add_breed(request):
     
     return render(request, 'staff/add_breed.html', {'form': form})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)
 def manage_breeds(request):
     breeds = breed.objects.all()
     return render(request, 'staff/manage_breeds.html', {'breeds': breeds,})
 
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)
 def update_breed(request, pk):
     breed_instance = get_object_or_404(breed, pk=pk)
@@ -459,6 +473,7 @@ def update_breed(request, pk):
     
     return render(request, 'staff/update_breed.html', {'form': form, 'breed': breed_instance})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)
 def delete_breed(request, pk):
     breed = get_object_or_404(breed, pk=pk)
