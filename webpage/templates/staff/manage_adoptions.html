@@ -54,7 +54,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if adoption.approval%}
+                    {% if adoption.approval and not adoption.status%}
                     <form method="post" action="{% url 'manage_adoptions' %}">
                         {% csrf_token %}
                         <input type="hidden" name="adoption_id" value="{{ adoption.id }}">

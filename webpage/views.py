@@ -8,7 +8,7 @@ from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UpdateUserInf
 from django import forms
 from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
 from django.views.decorators.cache import cache_control
-from .utils import send_approval_email
+from .utils import send_approval_email , send_pickup_email , send_rejection_email
 from django.utils import timezone
 from datetime import timedelta, datetime
 import matplotlib
@@ -160,7 +160,7 @@ def user_info(request):
         if form.is_valid():
             form.save()
             messages.success(request,"user info is updated")
-            if current_user.is_staff:
+            if request.user.is_staff:
                 return redirect("staff_home")
             else:
                 return redirect("home")
@@ -278,10 +278,10 @@ def breed_recommendation(request):
                 filters['low_shedding'] = low_shedding
     
             if athletic:
-                filters['athletic'] = low_shedding
+                filters['athletic'] = athletic
             
             if Guard_dog:
-                filters['guard_dog'] = low_shedding
+                filters['Guard_dog'] = Guard_dog
 
             if first_time_owner:
                 filters['first_time_owner'] = first_time_owner
@@ -364,19 +364,21 @@ def manage_adoptions(request):
         adoption = get_object_or_404(Adoption, id=adoption_id)
         pet = adoption.pet
         if action == 'change_status':
-            adoption.status = not adoption.status
+            adoption.status = True
             adoption.save()
+            send_pickup_email(adoption.customer.email, pet.name)
             messages.success(request, "Adoption status changed successfully!")
         elif action == 'delete_adoption':
             pet.is_adopted = False
             pet.save()
+            send_rejection_email(adoption.customer.email, pet.name)
             adoption.delete()
             messages.success(request, "Adoption deleted successfully!")
         elif action == 'change_approval':
             if not adoption.approval:
                 adoption.approval = True
                 adoption.save()
-                ###send_approval_email(adoption.customer.email, pet.name)###
+                send_approval_email(adoption.customer.email, pet.name)
                 messages.success(request, "Adoption approval status changed successfully!")
         return redirect('manage_adoptions')
     

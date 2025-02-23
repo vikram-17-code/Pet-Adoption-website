@@ -132,9 +132,9 @@ MEDIA_ROOT = os.path.join (BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Replace with your email server
-EMAIL_PORT = 587  # Replace with your email server port
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mailmanbot123@gmail.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = 'letc ewwk ialy umwb'  # Replace with your email password
-DEFAULT_FROM_EMAIL = 'mailmanbot123@gmail.com'
+EMAIL_HOST_USER = 'mailmanbot123@gmail.com'  # Your Outlook email address
+EMAIL_HOST_PASSWORD = 'kbqi zgil qcbv makn'  # Your app password
+DEFAULT_FROM_EMAIL = 'mailmanbot123@gmail.com'  # Your Outlook email address

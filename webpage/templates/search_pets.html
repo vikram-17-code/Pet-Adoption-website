@@ -11,7 +11,8 @@
 
     <!-- Search Results -->
     <section id="pets" class="pets">
-        <h2>Search Results</h2>
+        <div class="container">
+        <h2>Pets</h2>
         {% for pet in pets %}
             {% if pet.is_adopted %}
             <div class="pet-card">
@@ -29,5 +30,6 @@
             </div>
             {% endif %}
         {% endfor %}
+        </div>
     </section>
 {% endblock %}
