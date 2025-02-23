@@ -12,11 +12,13 @@
     <br><br>
 
     <script>
-        // Clear form fields on page load
-        window.onload = function() {
+        // Clear form fields on page show
+        window.addEventListener('pageshow', function() {
             document.querySelectorAll('form input').forEach(function(input) {
-                input.value = '';
+                if (input.type !== 'hidden') {
+                    input.value = '';
+                }
             });
-        };
+        });
     </script>
     {% endblock %}

@@ -1,7 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="manage-pets-container">
     <h1>Manage Breeds</h1>
+
+    <button id="toggleSearchBtn" class="toggle-btn">Toggle Search</button>
+    <div class="search-container" id="searchForm" style="display: none;">
+        <form method="GET" action="{% url 'manage_breeds' %}">
+            <input type="text" name="search" placeholder="Search by breed name..." value="{{ search_query }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+
     <table>
         <thead>
             <tr>
@@ -27,5 +38,20 @@
         </tbody>
     </table>
 </section>
+</div>
 <br><br>
+
+
+<script>
+    document.getElementById('toggleSearchBtn').addEventListener('click', function() {
+        var searchForm = document.getElementById('searchForm');
+        if (searchForm.style.display === 'none') {
+            searchForm.style.display = 'block';
+        } else {
+            searchForm.style.display = 'none';
+        }
+    });
+</script>
+
+
 {% endblock %}

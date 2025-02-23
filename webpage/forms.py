@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm ,UserChangeForm ,SetPasswordForm
 from django import forms
 from .models import Profile ,pet ,adoption ,breed 
+from django.core.validators import MinLengthValidator
 
 
 class SignUpForm(UserCreationForm):
@@ -133,10 +134,11 @@ class BreedRecommendationForm(forms.Form):
 class AdoptionForm(forms.ModelForm):
     pet_name = forms.CharField(label="Pet Name", max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})) 
     user_name  = forms.CharField(label="Name", max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
+    phone = forms.CharField(label="Phone", max_length=15, required=True, validators=[MinLengthValidator(10)], widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}))
     city = forms.CharField(label="City", max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'city'}))
     state = forms.CharField(label="State", max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'state'}))
     zipcode = forms.CharField(label="Zipcode", max_length=10, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'zipcode'}))
-    declaration = forms.BooleanField(label="Declaration", required=True, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),help_text='I hereby declare that the information provided is true and correct to the best of my knowledge and belief. And I will be fully responsible for this animal and take good care of it.'
+    declaration = forms.BooleanField(label="Declaration", required=True, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
     )
         
     class Meta:
@@ -150,7 +152,9 @@ class AdoptionForm(forms.ModelForm):
                 'zipcode': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'zipcode'}),
                 'declaration': forms.CheckboxInput(attrs={'class': 'form-check-input',}),}
         
-        
+    def __init__(self, *args, **kwargs):
+        super(AdoptionForm, self).__init__(*args, **kwargs)
+        self.fields['declaration'].label = 'I hereby declare that the information provided is true and correct to the best of my knowledge and belief. And I will be fully responsible for this animal and take good care of it.'
 
 class SearchForm(forms.Form):
     query = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'Search for pets...'}))

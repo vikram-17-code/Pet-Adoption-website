@@ -1,7 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="manage-pets-container">
     <h1>Manage Adoptions</h1>
+
+    <button id="toggleSearchBtn" class="toggle-btn">Toggle Search</button>
+    <div class="search-container" id="searchForm" style="display: none;">
+        <form method="GET" action="{% url 'manage_adoptions' %}">
+            <input type="text" name="search" placeholder="Search by adopter or pet name..." value="{{ search_query }}">
+            <input type="date" name="date" placeholder="Search by date..." value="{{ date_query }}">
+            <select name="approval">
+                <option value="">Approval status</option>
+                <option value="approved" {% if approval_query == 'approved' %}selected{% endif %}>Approved</option>
+                <option value="pending" {% if approval_query == 'pending' %}selected{% endif %}>Pending</option>
+            </select>
+            <select name="status">
+                <option value="">Adoption status</option>
+                <option value="approved" {% if status_query == 'approved' %}selected{% endif %}>Approved</option>
+                <option value="pending" {% if status_query == 'pending' %}selected{% endif %}>Pending</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+
     <table>
         <thead>
             <tr>
@@ -61,5 +83,18 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<script>
+    document.getElementById('toggleSearchBtn').addEventListener('click', function() {
+        var searchForm = document.getElementById('searchForm');
+        if (searchForm.style.display === 'none') {
+            searchForm.style.display = 'block';
+        } else {
+            searchForm.style.display = 'none';
+        }
+    });
+</script>
+
     <br><br><br><br><br><br><br><br><br>
 {% endblock %}

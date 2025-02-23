@@ -1,17 +1,17 @@
-from django.shortcuts import render,redirect,get_object_or_404
-from .models import pet, breed, Profile 
-from .models import adoption as Adoption
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import pet, breed, Profile, adoption as Adoption
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm,ChangePasswordForm, UpdateUserInfo ,AddPetForm ,UpdatePetForm ,BreedRecommendationForm ,AdoptionForm,SearchForm ,ReportForm ,AddBreedForm
+from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UpdateUserInfo, AddPetForm, UpdatePetForm, BreedRecommendationForm, AdoptionForm, SearchForm, ReportForm, AddBreedForm
 from django import forms
-from django.contrib.auth.decorators import permission_required,login_required, user_passes_test
+from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
 from django.views.decorators.cache import cache_control
+from .utils import send_approval_email
 from django.utils import timezone
-from datetime import timedelta
-import matplotlib 
+from datetime import timedelta, datetime
+import matplotlib
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
@@ -33,6 +33,10 @@ def home(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def About(request):
    return render(request,"About.html",{})
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def privacy_policy(request):
+   return render(request,"privacy_policy.html",{})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def login_user(request):
@@ -207,14 +211,28 @@ def add_pet(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def manage_pets(request):
     pets = pet.objects.all()
+    breeds = breed.objects.all()
+    search_params = {
+        'name__icontains': request.GET.get('search', ''),
+        'breed__name__icontains': request.GET.get('breed', ''),
+        'is_adopted': request.GET.get('adopted', '').lower() == 'yes' if request.GET.get('adopted') else None
+    }
+
+    search_params = {k: v for k, v in search_params.items() if v}
+
+    if search_params:
+        pets = pets.filter(**search_params)
+
+
+
     if request.method == 'POST':
         pet_id = request.POST.get('pet_id')
         pet_to_delete = pet.objects.get(id=pet_id)
         pet_to_delete.delete()
         messages.success(request, "Pet deleted successfully!")
         return redirect('manage_pets')
-    return render(request, "staff/manage_pets.html", {"pets": pets,})
-
+    
+    return render(request, "staff/manage_pets.html", {"pets": pets,"search_params": search_params,"breeds": breeds})
 
 @user_passes_test(lambda u: u.is_staff)
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -253,14 +271,18 @@ def breed_recommendation(request):
             # Filtering logic based on user inputs 
             filters = {
                 'activity_level': activity_level,
-                'athletic': athletic,
-                'Guard_dog': Guard_dog,
                 'size': size,
                 }
     
             if low_shedding:
                 filters['low_shedding'] = low_shedding
     
+            if athletic:
+                filters['athletic'] = low_shedding
+            
+            if Guard_dog:
+                filters['guard_dog'] = low_shedding
+
             if first_time_owner:
                 filters['first_time_owner'] = first_time_owner
 
@@ -315,6 +337,27 @@ def adopt_pet(request, pk):
 @user_passes_test(lambda u: u.is_staff)
 def manage_adoptions(request):
     adoptions = Adoption.objects.all()
+    search_query = request.GET.get('search', '')
+    date_query = request.GET.get('date', '')
+    approval_query = request.GET.get('approval', '')
+    status_query = request.GET.get('status', '')
+
+    if search_query:
+        adoptions = adoptions.filter(customer__username__icontains=search_query) | adoptions.filter(pet__name__icontains=search_query)
+
+    if date_query:
+        try:
+            date_obj = datetime.strptime(date_query, '%Y-%m-%d').date()
+            adoptions = adoptions.filter(date__date=date_obj)
+        except ValueError:
+            messages.error(request, "Invalid date format. Please use YYYY-MM-DD.")
+
+    if approval_query:
+        adoptions = adoptions.filter(approval=(approval_query.lower() == 'approved'))
+
+    if status_query:
+        adoptions = adoptions.filter(status=(status_query.lower() == 'approved'))
+
     if request.method == 'POST':
         adoption_id = request.POST.get('adoption_id')
         action = request.POST.get('action')
@@ -333,10 +376,17 @@ def manage_adoptions(request):
             if not adoption.approval:
                 adoption.approval = True
                 adoption.save()
+                ###send_approval_email(adoption.customer.email, pet.name)###
                 messages.success(request, "Adoption approval status changed successfully!")
         return redirect('manage_adoptions')
     
-    return render(request, "staff/manage_adoptions.html", {"adoptions": adoptions})
+    return render(request, "staff/manage_adoptions.html", {
+        "adoptions": adoptions,
+        "search_query": search_query,
+        "date_query": date_query,
+        "approval_query": approval_query,
+        "status_query": status_query
+    })
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required
@@ -415,7 +465,7 @@ def generate_report(request):
             plt.clf()
 
             # Create a pie chart
-            labels = [data['pet__breed__name'] for data in chart_data]
+            labels = [f"{data['pet__breed__name']} ({data['count']})" for data in chart_data]
             sizes = [data['count'] for data in chart_data]
             colors = plt.cm.Paired(range(len(labels)))
 
@@ -452,9 +502,16 @@ def add_breed(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)
 def manage_breeds(request):
-    breeds = breed.objects.all()
-    return render(request, 'staff/manage_breeds.html', {'breeds': breeds,})
+    search_query = request.GET.get('search', '')
+    if search_query:
+        breeds = breed.objects.filter(name__icontains=search_query)
+    else:
+        breeds = breed.objects.all()
 
+    return render(request, "staff/manage_breeds.html", {
+        "breeds": breeds,
+        "search_query": search_query
+    })
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)

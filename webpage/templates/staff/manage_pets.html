@@ -1,7 +1,29 @@
 {% extends 'base.html'%}
 
 {% block content%}
+<div class="manage-pets-container">
 <h2>Manage Pets</h2> 
+
+<button id="toggleSearchBtn" class="toggle-btn">Toggle Search</button>
+    <div class="search-container" id="searchForm" style="display: none;">
+        <form method="GET" action="{% url 'manage_pets' %}">
+            <input type="text" name="search" placeholder="Search by name..." value="{{ search_params.name__icontains }}">
+            <select name="breed">
+                <option value="">Select breed</option>
+                {% for breed in breeds %}
+                <option value="{{ breed.name }}" {% if search_params.breed__name__icontains == breed.name %}selected{% endif %}>{{ breed.name }}</option>
+                {% endfor %}
+            </select>
+            <select name="adopted">
+                <option value="">Adopted status</option>
+                <option value="yes" {% if search_params.is_adopted == True %}selected{% endif %}>Yes</option>
+                <option value="no" {% if search_params.is_adopted == False %}selected{% endif %}>No</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+
 <table> 
     <thead> 
         <tr> 
@@ -59,5 +81,17 @@
     {% endfor %} 
 </tbody> 
 </table>
+</div>
+
+<script>
+    document.getElementById('toggleSearchBtn').addEventListener('click', function() {
+        var searchForm = document.getElementById('searchForm');
+        if (searchForm.style.display === 'none') {
+            searchForm.style.display = 'block';
+        } else {
+            searchForm.style.display = 'none';
+        }
+    });
+</script>
 
 {% endblock%}
