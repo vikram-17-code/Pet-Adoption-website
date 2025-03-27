@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 
 class Profile(models.Model):
     user = models.OneToOneField(User , on_delete= models.CASCADE)
-    phone = models.CharField(max_length=10,blank=True,validators=[RegexValidator(regex='^\d{10,15}$', message='Phone number must be 10 to 15 digits long')])
+    phone = models.CharField(max_length=10,blank=True,validators=[RegexValidator(regex='^\d{10}$', message='Phone number must be 10 digits long')])
     address = models.CharField(max_length=200,blank=True)
     city = models.CharField(max_length=20,blank=True)
     state = models.CharField(max_length=20,blank=True)
@@ -87,6 +87,7 @@ class adoption(models.Model):
     zipcode =models.CharField(max_length=15,blank=True)
     declaration =models.BooleanField(default=False)
     date =models.DateField(default=datetime.datetime.today)
+    adopted_date =models.DateField(blank=True,null=True)
     approval =models.BooleanField(default=False)
     status =models.BooleanField(default=False)
 

@@ -365,6 +365,7 @@ def manage_adoptions(request):
         pet = adoption.pet
         if action == 'change_status':
             adoption.status = True
+            adoption.adopted_date = timezone.now()
             adoption.save()
             send_pickup_email(adoption.customer.email, pet.name)
             messages.success(request, "Adoption status changed successfully!")
@@ -434,6 +435,11 @@ def generate_report(request):
     report_data = None
     chart_data = None
 
+    
+    total_pets = pet.objects.count() - Adoption.objects.filter(status=True).count()  
+    approved_pets = Adoption.objects.filter(approval=True).count()
+    adopted_pets = Adoption.objects.filter(status=True).count()
+
 
     if report_form.is_valid():
         breed = report_form.cleaned_data['breed']
@@ -452,11 +458,12 @@ def generate_report(request):
         if breed:
             adoptions = adoptions.filter(pet__breed=breed)
 
-        adoptions = adoptions.filter(date__gte=start_date)
+        adoptions = adoptions.filter(adopted_date__gte=start_date)
 
         report_data = {
             'total_adoptions': adoptions.count(),
-            'adoptions': adoptions
+            'adoptions': adoptions,
+            'adopted_dates': adoptions.values_list('adopted_date', flat=True)
         }
 
         if adoptions.exists():
@@ -481,9 +488,9 @@ def generate_report(request):
             string = base64.b64encode(buf.read())
             uri = 'data:image/png;base64,' + urllib.parse.quote(string)
 
-            return render(request, "staff/generate_report.html", {"report_form": report_form, "report_data": report_data, "chart_data": uri})
+            return render(request, "staff/generate_report.html", {"report_form": report_form, "report_data": report_data, "chart_data": uri,"total_pets": total_pets,"approved_pets": approved_pets,"adopted_pets": adopted_pets})
 
-    return render(request, "staff/generate_report.html", {"report_form": report_form, "report_data": report_data})
+    return render(request, "staff/generate_report.html", {"report_form": report_form, "report_data": report_data,"total_pets": total_pets,"approved_pets": approved_pets,"adopted_pets": adopted_pets})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_passes_test(lambda u: u.is_staff)

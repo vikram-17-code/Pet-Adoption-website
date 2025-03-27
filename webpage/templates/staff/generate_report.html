@@ -8,6 +8,13 @@
         <button type="submit" class="btn">Generate Report</button>
     </form>
 
+    <div>
+        <h3>Statistics</h3>
+        <p>Total Pets Available: {{ total_pets }}</p>
+        <p>Pets Approved for Adoption: {{ approved_pets }}</p>
+        <p>Pets Adopted: {{ adopted_pets }}</p>
+    </div>
+
     {% if report_data %}
     <h3>Report Results</h3>
     <p>Total Adoptions: {{ report_data.total_adoptions }}</p>
@@ -26,7 +33,7 @@
                 <td>{{ adoption.pet.name }}</td>
                 <td>{{ adoption.pet.breed.name }}</td>
                 <td>{{ adoption.customer.username }}</td>
-                <td>{{ adoption.date }}</td>
+                <td>{{ adoption.adopted_date }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -36,7 +43,7 @@
 
 
     {% if report_data.total_adoptions > 0 %}
-    <h2>Report Chart</h2>
+    <h2>Adoption Chart</h2>
     <img src="{{ chart_data }}" alt="Pie chart">
     {% endif %}
 
