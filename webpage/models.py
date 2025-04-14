@@ -95,8 +95,3 @@ class adoption(models.Model):
     def __str__(self): 
         return f"Adoption of {self.pet.name} by {self.customer.username}"
 
-
-
-
-# Create your models here.
-

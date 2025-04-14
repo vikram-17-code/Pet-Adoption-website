@@ -14,21 +14,19 @@
         <div class="container">
         <h2>Pets</h2>
         {% for pet in pets %}
-            {% if pet.is_adopted %}
-            <div class="pet-card">
-                <img src="{{ pet.image.url }}" alt="{{ pet.name }}">
-                <h3>{{ pet.name }}</h3>
-                <p>{{ pet.breed }}</p>
-                <p>Status: Adopted</p>
-            </div>
-            {% else %}
+            {% if not pet.is_adopted %}
             <div class="pet-card">
                 <img src="{{ pet.image.url }}" alt="{{ pet.name }}">
                 <h3>{{ pet.name }}</h3>
                 <p>{{ pet.breed }}</p>
                 <a href="{% url 'adopt_pet' pet.pk %}" class="btn">Adopt Me</a>
             </div>
+            {% else %}
+            <h2>Sorry,no pets are avaiable
+                
+            </h2>
             {% endif %}
+
         {% endfor %}
         </div>
     </section>

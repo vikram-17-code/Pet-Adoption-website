@@ -186,6 +186,20 @@ def staff_login(request):
             return redirect('staff_login') 
     return render(request, 'staff_login.html')
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.is_superuser:  
+            login(request, user)
+            messages.success(request, 'Welcome, Admin!')
+            return redirect('staff_home') 
+        else:
+            messages.error(request, 'Invalid credentials or not an admin.')
+            return redirect('admin_login')
+    return render(request, 'admin_login.html')
 
 
 @permission_required('webpage.can_add_pet', raise_exception=True)

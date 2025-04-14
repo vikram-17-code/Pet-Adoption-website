@@ -29,6 +29,7 @@ urlpatterns = [
    path('staff_home/', views.staff_home, name='staff_home'),
    path('search/', views.search_pets, name='search_pets'),
    path('generate_report/', views.generate_report, name='generate_report'),
-   
+   path('admin_login/', views.admin_login, name='admin_login'),
+
 
 ]
