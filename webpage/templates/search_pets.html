@@ -21,8 +21,6 @@
                 <p>{{ pet.breed }}</p>
                 <a href="{% url 'adopt_pet' pet.pk %}" class="btn">Adopt Me</a>
             </div>
-            {% else %}
-            <h2>Sorry,no pets are avaiable
                 
             </h2>
             {% endif %}
